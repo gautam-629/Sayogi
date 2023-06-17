@@ -6,6 +6,7 @@ import { verifyOtpRequest } from '../../store/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATUSES } from '../../config';
 import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 
 const otpSchema = Yup.string()
@@ -13,6 +14,7 @@ const otpSchema = Yup.string()
   .length(4, 'Phone number must be 4 digits');
 
 const Otp = ({ handleOnNext }) => {
+  let navigate=useNavigate();
   const [otp, setOtp] = useState('');
   const { phoneNumber, hash } = useSelector((state) => state.auth.otp);
 
@@ -26,8 +28,6 @@ const Otp = ({ handleOnNext }) => {
       return errorNotify(error.message);
     }
     dispatch(verifyOtpRequest({ otp, phoneNumber, hash }))
-    // handleOnNext();
-        console.log("Hello")
   }
 
   const { status } = useSelector((state) => state.auth);

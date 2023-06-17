@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import {api,STATUSES} from '../config/index';
 const initialState={
     isAuth:false,
+    token:{
+        accessToken:'',
+        refreshToken:''
+    },
     user:null,
     otp:{
         phoneNumber:'',
@@ -36,11 +40,16 @@ const authSlice=createSlice({
          setStatusMessage(state, action) {
             const { message } = action.payload
             state.errMessage = message;
+         },
+         setToken(state,action){
+            const {accessToken,refreshToken}=action.payload;
+            state.token.accessToken=accessToken;
+            state.token.refreshToken=refreshToken;
          }
     }
 })
 
-export const {setAuth,setOtp,setStatus,setStatusMessage}=authSlice.actions;
+export const {setAuth,setOtp,setStatus,setStatusMessage,setToken}=authSlice.actions;
  export default authSlice.reducer;
 
  export function sendOtpRequest(phoneNumber) {
@@ -68,7 +77,7 @@ export const {setAuth,setOtp,setStatus,setStatusMessage}=authSlice.actions;
          dispatch(setAuth(res.data))
          console.log(res.data)
          dispatch(setStatus(STATUSES.SUCESS));
-
+         dispatch(setToken(res.data))
       } catch (error) {
          dispatch(setStatus(STATUSES.ERROR));
          dispatch(setStatusMessage(error.response.data));

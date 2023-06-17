@@ -83,7 +83,6 @@ const authController = {
       } catch (error) {
          return next(error);
       }
-
    },
 
    async logout(req, res, next) {

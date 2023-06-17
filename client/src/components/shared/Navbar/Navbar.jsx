@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {Link} from 'react-router-dom';
 const Navbar = () => {
   return (
     <>
@@ -12,7 +13,10 @@ const Navbar = () => {
 
           <div>
             <img className='inline mr-20' width={25} height={25} src={'/img/notification.png'} alt='notification' />
+            <Link to={'/authenticate'}>
             <span className='text-textColor mr-20 cursor-pointer text-lg font-bold'>login</span>
+            </Link>
+            
           </div>
 
         </div>

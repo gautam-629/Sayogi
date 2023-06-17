@@ -8,5 +8,5 @@ router.post('/verifyotp',authController.verityOtp);
 router.post('/activate',auth,activateController.activate)
 router.post('/me',auth,userControler.me);
 router.post('/refresh',refreshController.refresh);
-router.post('/logout',auth,authController.logout)
+router.post('/logout',auth,authController.logout);
 export default router;
