@@ -4,9 +4,11 @@ import SlideBar from './components/shared/slidebar/SlideBar';
 import Navbar from './components/shared/Navbar/Navbar';
 import Activate from './pages/auth/Activate/Activate';
 import Authenticate from './pages/auth/Authenticate/Authenticate';
+import { ToastContainer } from 'react-toastify';
 const App = () => {
   return (
     <BrowserRouter>
+     <ToastContainer />
       <div className='grid grid-cols-12 px-1'>
         <div className='col-span-3'>
           <SlideBar />

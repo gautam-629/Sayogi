@@ -4,7 +4,10 @@ import  {auth}  from "./routes/index.js";
 import errorHandler from "./middlewares/errorhander.js";
 import express from 'express'
 import connectDB from "./config/database/ConnectDB.js";
+import cors from 'cors';
 let app=express();
+
+app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 

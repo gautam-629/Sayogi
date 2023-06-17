@@ -77,7 +77,8 @@ const authController = {
          res.json({
             user: user,
             accessToken: accessToken,
-            refreshToken: refreshToken
+            refreshToken: refreshToken,
+            auth:true
          })
       } catch (error) {
          return next(error);
