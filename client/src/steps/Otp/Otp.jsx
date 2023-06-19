@@ -27,7 +27,12 @@ const Otp = ({ handleOnNext }) => {
     } catch (error) {
       return errorNotify(error.message);
     }
-    dispatch(verifyOtpRequest({ otp, phoneNumber, hash }))
+    dispatch( verifyOtpRequest({ otp, phoneNumber, hash }))
+      
+    setTimeout(()=>{
+      navigate('/activate');
+    },2000);
+      
   }
 
   const { status } = useSelector((state) => state.auth);
@@ -35,9 +40,7 @@ const Otp = ({ handleOnNext }) => {
   useEffect(() => {
     if (status === STATUSES.ERROR) {
       errorNotify('Internal Server Error');
-
     }
-   
   }, [status])
 
   return (

@@ -5,6 +5,7 @@ import HashService from '../../services/hashService';
 import CustomErrorHandler from "../../services/customErrorHandler";
 import userModels from "../../models/userModels";
 import TokenServices from "../../services/tokenServices";
+import UserDto from "../../dtos/UserDto";
 const authController = {
    async sendOtp(req, res, next) {
       // validation
@@ -24,7 +25,7 @@ const authController = {
 
       //send otp
       try {
-         // await OtpServices.sendBySms(`+977${phoneNumber}`,otp,next);
+         await OtpServices.sendBySms(`+977${phoneNumber}`,otp,next);
          res.json({ hash: `${hash}.${expireTime}`, otp, phoneNumber })
       } catch (error) {
          return next(error);
@@ -74,8 +75,10 @@ const authController = {
          // store into database
          TokenServices.storeRefreshToken(refreshToken, user._id, next);
 
+         const userDto=new UserDto(user);
+
          res.json({
-            user: user,
+            user: userDto,
             accessToken: accessToken,
             refreshToken: refreshToken,
             auth:true
@@ -92,7 +95,6 @@ const authController = {
       } catch (error) {
          return next(error)
       }
-
       res.json({ user: null });
    }
 

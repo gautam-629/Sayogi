@@ -1,6 +1,7 @@
 
 import TokenServices from "../../services/tokenServices";
 import userModels from "../../models/userModels";
+import UserDto from "../../dtos/UserDto";
 class refreshController {
      static async refresh(req, res, next) {
           const { refreshTokenFrombody } = req.body;
@@ -19,7 +20,7 @@ class refreshController {
                }
 
                // check the user
-               const user = await userModels.find({ _id: userData._id });
+               const user = await userModels.findOne({ _id: userData._id });
                if (!user) {
                     return next('No user');
                }
@@ -30,11 +31,13 @@ class refreshController {
                //update in the database
                await TokenServices.updateRefreshToken(userData._id, refreshToken);
 
-               //response
+               const userDto = new UserDto(user);
+
                res.json({
-                    user: user,
+                    user: userDto,
                     accessToken: accessToken,
-                    refreshToken: refreshToken
+                    refreshToken: refreshToken,
+                    auth: true
                })
 
           } catch (error) {

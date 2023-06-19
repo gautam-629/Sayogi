@@ -45,6 +45,7 @@ const authSlice=createSlice({
             const {accessToken,refreshToken}=action.payload;
             state.token.accessToken=accessToken;
             state.token.refreshToken=refreshToken;
+            localStorage.setItem('refreshToken', refreshToken);
          }
     }
 })
@@ -56,9 +57,9 @@ export const {setAuth,setOtp,setStatus,setStatusMessage,setToken}=authSlice.acti
     return async function (dispatch, getState) {
            dispatch(setStatus(STATUSES.LOADING));
        try {
-          const res = await api.post('/api/sendotp',phoneNumber);
-          dispatch(setOtp(res.data))
-          console.log(res.data)
+          const {data} = await api.post('/api/sendotp',phoneNumber);
+          dispatch(setOtp(data))
+          console.log(data)
           dispatch(setStatus(STATUSES.SUCESS));
  
        } catch (error) {
@@ -73,11 +74,11 @@ export const {setAuth,setOtp,setStatus,setStatusMessage,setToken}=authSlice.acti
    return async function (dispatch, getState) {
           dispatch(setStatus(STATUSES.LOADING));
       try {
-         const res = await api.post('/api/verifyotp',verifyData);
-         dispatch(setAuth(res.data))
-         console.log(res.data)
+         const {data} = await api.post('/api/verifyotp',verifyData);
+         dispatch(setAuth(data))
+         console.log(data)
          dispatch(setStatus(STATUSES.SUCESS));
-         dispatch(setToken(res.data))
+         dispatch(setToken(data))
       } catch (error) {
          dispatch(setStatus(STATUSES.ERROR));
          dispatch(setStatusMessage(error.response.data));

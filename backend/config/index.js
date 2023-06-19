@@ -7,5 +7,6 @@ export const {
     SMS_AUTH,
     SMS_FROM_NUMBER,
     accessTokenSecret,
-    refreshTokenSecret
+    refreshTokenSecret,
+    BASE_URL
 }=process.env;

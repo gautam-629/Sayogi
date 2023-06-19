@@ -5,6 +5,7 @@ import { activateScheme } from "../../validators/validators";
 import userModels from "../../models/userModels";
 import CustomErrorHandler from "../../services/customErrorHandler";
 import { setTimeout } from 'timers/promises';
+import UserDto from '../../dtos/UserDto';
 const activateController = {
     async activate(req, res, next) {
         const { name, avatar } = req.body;
@@ -39,12 +40,11 @@ const activateController = {
             user.avatar = `/storage/${imagePath}`;
             user.save();
 
-            setTimeout(()=>{
+            const userDto=new UserDto(user)
                 res.json({
-                    user: user,
+                    user: userDto,
                     auth: true
                 })
-            },70000)
            
         } catch (error) {
             return next(error);

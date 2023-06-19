@@ -4,7 +4,7 @@ import Button from '../../components/shared/Button/Button';
 import styles from './Avatar.module.css';
 import { setAvatar } from '../../store/ActivateSlice';
 import { useSelector, useDispatch } from "react-redux";
-import { makeActivateRequest } from '../../../http';
+import { makeActivateRequest } from '../../http';
 import { setAuth } from '../../store/AuthSlice';
 import { STATUSES } from '../../config';
 import Loader from '../../components/shared/Loader/Loader';

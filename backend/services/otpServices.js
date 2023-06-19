@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { Twilio } from 'twilio';
 import { SMS_SID,SMS_AUTH,SMS_FROM_NUMBER } from '../config';
-import { NextFunction } from 'express';
 import HashService from './hashService';
 class OtpServices{
     static generateOtp(){
@@ -15,8 +14,7 @@ class OtpServices{
         //  const otp = await crypto.randomInt(1000, 9999);
         //  return otp;
       }
-
-      static async sendBySms(phoneNumbe,otp,next){
+      static async sendBySms(phoneNumber,otp,next){
               const twilioClient=new Twilio(SMS_SID,SMS_AUTH,{lazyLoading:true});
               try {
               return await twilioClient.messages.create({
