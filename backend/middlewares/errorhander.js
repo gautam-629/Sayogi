@@ -8,18 +8,16 @@ const errorHandler = (err, req, res, next) => {
     message: 'internal serer error',
     ...(DEBUG_MODE === 'true' && { originalError: err.stack })
   }
-
   if (err instanceof ValidationError) {
     statusCode = 422;
     data = {
-      message: err.message
+      message: err.stack
     }
-
   }
   if (err instanceof CustomErrorHandler) {
     statusCode = err.statusCode;
     data = {
-      message: err.message
+      message: err.stack
     }
   }
 
