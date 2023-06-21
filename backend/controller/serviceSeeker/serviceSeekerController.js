@@ -2,11 +2,11 @@
 import fs from 'fs';
 import { handleMultipartData } from "../../config";
 import CustomErrorHandler from "../../services/customErrorHandler";
-import { serviceSeekerSchema } from "../../validators/Validators";
+import { serviceSeekerSchema } from '../../validators/validators';
 import ServiceSeekerModel from '../../models/serviceSeeker';
+import ServiceSeeker from '../../dtos/ServiceSeeker';
 const Serviceseekers={
     createAccount(req,res,next){
-    
        handleMultipartData(req,res,async(err)=>{
           if(err){
             return next(CustomErrorHandler.serverError(err.message));
@@ -40,17 +40,41 @@ const Serviceseekers={
                 experience,
                 duration,
                 email,
-                cv: filePath,
+                cv: `/${filePath}`,
                 user:currentUser
               })
            } catch (error) {
-              return next(error)
+              return next(error);
            }
            res.status(201).json({
             serviceSeeker:serviceSeeker
            })
        })
-    }
+    },
+
+  async  getAllServiceSeeker(req,res,next){
+           try {
+               const serviceSeeker = await ServiceSeekerModel.find();
+               res.status(201).json({
+                serviceSeeker:serviceSeeker
+               })
+           } catch (error) {
+            return next(error);
+           }
+    },
+
+    async  getSingleServiceSeeker(req,res,next){
+      try {
+          const serviceSeeker = await ServiceSeekerModel.findById(req.params.id).populate('user','phoneNumber name avatar');
+          const serviceSeekerDto=new ServiceSeeker(serviceSeeker);
+          res.status(201).json({
+           serviceSeeker:serviceSeekerDto
+          })
+      } catch (error) {
+       return next(error);
+      }
+}
+  
 }
 
 export default Serviceseekers;

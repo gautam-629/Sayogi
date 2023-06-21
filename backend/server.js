@@ -10,6 +10,7 @@ let app=express();
 
 app.use(cors());
 app.use('/storage',express.static('storage'));
+app.use('/uploads',express.static('uploads'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json({limit:'8mb'}));
 
