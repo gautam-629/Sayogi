@@ -25,7 +25,9 @@ const SlideBar = () => {
 
             <li className='flex gap-x-3 items-center pt-3'>
               <img src={'/img/createProfile.png'} height={10} width={25} alt='create porfile' />
-              <span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Create Profile</span>
+              <Link to={'/createaccount'}>
+                <span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Create Profile</span>
+              </Link>
             </li>
 
             <li className='flex gap-x-3 items-center pt-3'>
@@ -35,7 +37,7 @@ const SlideBar = () => {
 
             <li className='flex gap-x-3 items-center pt-3'>
               <img src={'/img/searUp.png'} height={10} width={25} alt='create porfile' />
-              <span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Service Seeker</span>
+              <Link to={'/getallserviceseeker'}> <span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Service Seeker</span></Link>
             </li>
 
             <li className='flex gap-x-3 items-center pt-3'>

@@ -10,6 +10,9 @@ import Loader from './components/shared/Loader/Loader';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useLoadingWithRefresh } from './hooks/UseLoadingWIthRefresh';
+import CreateAccount from './pages/ServiceSeekerAccount/CreateAccount';
+import AllServiceSeeker from './pages/ServiceSeekerAccount/AllServiceSeeker';
+import ServiceSeekerProfile from './pages/ServiceSeekerAccount/ServiceSeekerProfile';
 const App = () => {
     const {loading}=useLoadingWithRefresh();
     return loading? (
@@ -41,6 +44,9 @@ const App = () => {
               </ProtectedProtectedRoute>
             }
             />
+            <Route path='/createaccount' element={<CreateAccount/>}/>
+            <Route path='/getallserviceseeker' element={<AllServiceSeeker/>}/>
+            <Route path='/getserviceseekerprofile' element={<ServiceSeekerProfile/>}/>
           </Routes>
         </div>
       </div>
