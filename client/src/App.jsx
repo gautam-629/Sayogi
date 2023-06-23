@@ -14,43 +14,47 @@ import CreateAccount from './pages/ServiceSeekerAccount/CreateAccount';
 import AllServiceSeeker from './pages/ServiceSeekerAccount/AllServiceSeeker';
 import ServiceSeekerProfile from './pages/ServiceSeekerAccount/ServiceSeekerProfile';
 const App = () => {
-    const {loading}=useLoadingWithRefresh();
-    return loading? (
-      <Loader message="Loading, please wait.."/>
- ) :(
-     <>
-    <BrowserRouter>
-      <ToastContainer />
-      <div className='grid grid-cols-12 px-1'>
-        <div className='col-span-3'>
-          <SlideBar />
+  const { loading } = useLoadingWithRefresh();
+  return loading ? (
+    <Loader message="Loading, please wait.." />
+  ) : (
+    <>
+      <BrowserRouter>
+        <ToastContainer />
+        <div className='grid grid-cols-12 px-1'>
+          <div className='col-span-3'>
+            <SlideBar />
+          </div>
+          <div className='col-span-9 px-5'>
+            <Navbar />
+            <Routes>
+              <Route path='/authenticate' element={
+                <GuestRouter>
+                  <Authenticate />
+                </GuestRouter>
+              } />
+              <Route path='/activate' element={
+                <SemiProtected>
+                  <Activate />
+                </SemiProtected>
+              } />
+              <Route path='/servicerequest' element={
+                <ProtectedProtectedRoute>
+                  <ServiceRequest />
+                </ProtectedProtectedRoute>
+              }
+              />
+              <Route path='/createaccount' element={
+                <ProtectedProtectedRoute>
+                  <CreateAccount />
+                </ProtectedProtectedRoute>
+              } />
+              <Route path='/getallserviceseeker' element={<AllServiceSeeker />} />
+              <Route path='/getserviceseekerprofile/:id' element={<ServiceSeekerProfile />} />
+            </Routes>
+          </div>
         </div>
-        <div className='col-span-9 px-5'>
-          <Navbar />
-          <Routes>
-            <Route path='/authenticate' element={
-              <GuestRouter>
-                <Authenticate />
-              </GuestRouter>
-            } />
-            <Route path='/activate' element={
-              <SemiProtected>
-                <Activate />
-              </SemiProtected>
-            } />
-            <Route path='/servicerequest' element={
-              <ProtectedProtectedRoute>
-                <ServiceRequest />
-              </ProtectedProtectedRoute>
-            }
-            />
-            <Route path='/createaccount' element={<CreateAccount/>}/>
-            <Route path='/getallserviceseeker' element={<AllServiceSeeker/>}/>
-            <Route path='/getserviceseekerprofile' element={<ServiceSeekerProfile/>}/>
-          </Routes>
-        </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
     </>
   )
 }
@@ -88,10 +92,10 @@ const ProtectedProtectedRoute = ({ children }) => {
     return <Navigate to="/authenticate" />
   }
   else if (isAuth && user?.activated) {
-         return children;
+    return children;
   }
   else if (isAuth && !user?.Activated) {
     return <Navigate to="/activate" />
   }
-  
+
 }

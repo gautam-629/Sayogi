@@ -13,7 +13,7 @@ class ServiceSeeker{
      cv;
      activated;
      createdAt;
-
+     skills;
      constructor(serviceSeeker){
          this.id=serviceSeeker._id;
          this.title=serviceSeeker.title;
@@ -25,6 +25,9 @@ class ServiceSeeker{
          this.phoneNumber=serviceSeeker.user.phoneNumber;
          this.avatar=serviceSeeker.user.avatar?`${process.env.BASE_URL}${serviceSeeker.user.avatar}`:null
          this.name=serviceSeeker.user.name;
+         this.rating=serviceSeeker.rating;
+         this.duration=serviceSeeker.duration
+         this.skills=serviceSeeker.skills
      }
 }
 

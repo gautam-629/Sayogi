@@ -5,6 +5,7 @@ import CustomErrorHandler from "../../services/customErrorHandler";
 import { serviceSeekerSchema } from '../../validators/validators';
 import ServiceSeekerModel from '../../models/serviceSeeker';
 import ServiceSeeker from '../../dtos/ServiceSeeker';
+import mapServiceSeekersToDTO from '../../dtos/getAllServiceSeekerDTO';
 const Serviceseekers={
     createAccount(req,res,next){
        handleMultipartData(req,res,async(err)=>{
@@ -54,9 +55,10 @@ const Serviceseekers={
 
   async  getAllServiceSeeker(req,res,next){
            try {
-               const serviceSeeker = await ServiceSeekerModel.find();
+               const serviceSeeker = await ServiceSeekerModel.find().populate('user','phoneNumber name avatar');
+               const serviceSeekerDto= mapServiceSeekersToDTO(serviceSeeker);
                res.status(201).json({
-                serviceSeeker:serviceSeeker
+                serviceSeeker:serviceSeekerDto
                })
            } catch (error) {
             return next(error);
