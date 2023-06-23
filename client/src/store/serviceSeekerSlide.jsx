@@ -55,7 +55,7 @@ export function fetchallServiceSeeker() {
     try {
       const res = await api.get('/api/serviceSeeker/getall');
       dispatch(setServiceSeeker(res.data));
-      dispatch(setStatus(STATUSES.SUCESS))
+      dispatch(setStatus(STATUSES.IDLE))
 
     } catch (error) {
       console.log(error);
@@ -70,7 +70,7 @@ export function fetchsingleServiceSeeker(id) {
     try {
       const res = await api.get(`/api/serviceSeeker/getsingle/${id}`);
       dispatch(setServiceSeeker(res.data));
-      dispatch(setStatus(STATUSES.SUCESS))
+      dispatch(setStatus(STATUSES.IDLE))
 
     } catch (error) {
       console.log(error);

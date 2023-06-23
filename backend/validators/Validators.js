@@ -17,6 +17,14 @@ export const activateScheme = Joi.object({
   avatar: Joi.string().required()
 })
 
+export const serviceRequestSchema=Joi.object({
+  title: Joi.string().required(),
+  address: Joi.string().required(),
+  charge: Joi.number().required(),
+  description: Joi.string().required(),
+  duration: Joi.string().required(),
+})
+
 export const serviceSeekerSchema = Joi.object({
   title: Joi.string().required(),
   address: Joi.string().required(),

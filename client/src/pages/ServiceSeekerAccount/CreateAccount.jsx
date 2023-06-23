@@ -5,6 +5,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 import { STATUSES } from '../../config';
 import Loader from '../../components/shared/Loader/Loader';
+import { setStatus } from '../../store/serviceSeekerSlide';
 const CreateAccount = () => {
   const [file, setFile] = useState(null);
   const [title,setTitle]=useState('');
@@ -46,7 +47,10 @@ const CreateAccount = () => {
      if(status===STATUSES.SUCESS){
         sucessNotify("Porfile created sucessfully 💚");
      }
-  },[status])
+     return ()=>{
+      dispatch(setStatus(STATUSES.IDLE))
+    }
+  },[status,dispatch])
  {status===STATUSES.LOADING && <Loader message={"Loading, please wait.."}/>}
   return (
     <>
