@@ -35,8 +35,10 @@ const authController = {
    async verityOtp(req, res, next) {
       // validate the request
       const { otp, phoneNumber, hash } = req.body;
+    
       try {
          const value = await verityOtpSchema.validateAsync(req.body);
+         
       } catch (error) {
          return next(error)
       }

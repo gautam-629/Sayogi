@@ -55,7 +55,7 @@ export function fetchallServiceRequest() {
     try {
       const res = await api.get('/api/servicerequest/getall');
       dispatch(setServiceRequest(res.data));
-      dispatch(setStatus(STATUSES.SUCESS))
+      dispatch(setStatus(STATUSES.IDLE))
 
     } catch (error) {
       console.log(error);

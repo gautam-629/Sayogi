@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {api,STATUSES} from '../config/index';
+import axios from "axios";
 const initialState={
     isAuth:false,
     token:{
@@ -12,7 +13,9 @@ const initialState={
         hash:'',
     },
     errMessage:'',
-    status: STATUSES.IDLE
+    status: STATUSES.IDLE,
+    users:[],
+    serviceSeeker:{}
 };
 
 const authSlice=createSlice({
@@ -46,11 +49,17 @@ const authSlice=createSlice({
             state.token.accessToken=accessToken;
             state.token.refreshToken=refreshToken;
             localStorage.setItem('refreshToken', refreshToken);
+         },
+         setUsers(state,action){
+            state.users=action.payload;
+         },
+         setServiceSeeker(state,action){
+              state.serviceSeeker=action.payload;
          }
     }
 })
 
-export const {setAuth,setOtp,setStatus,setStatusMessage,setToken}=authSlice.actions;
+export const {setAuth,setOtp,setStatus,setStatusMessage,setToken,setUsers,setServiceSeeker}=authSlice.actions;
  export default authSlice.reducer;
 
  export function sendOtpRequest(phoneNumber) {
@@ -85,4 +94,60 @@ export const {setAuth,setOtp,setStatus,setStatusMessage,setToken}=authSlice.acti
       }
    }
 }
+
+
+export function createProfile(data, token) {
+   return async function (dispatch, getState) {
+     dispatch(setStatus(STATUSES.LOADING))
+     console.log("Hit")
+     try {
+       const axiosInstance = axios.create({
+         baseURL: 'http://localhost:5000',
+         headers: {
+           common: {
+             'Authorization': `Bearer ${token}`,
+           },
+         },
+       });
+       const res = await axiosInstance.post('/api/serviceSeeker/create', data);
+       dispatch(setAuth(res.data));
+       dispatch(setStatus(STATUSES.SUCESS));
+     } catch (error) {
+       console.log(error);
+       dispatch(setStatus(STATUSES.ERROR));
+     }
  
+   }
+ }
+ 
+
+ export function fetchallServiceSeeker() {
+   return async function (dispatch, getState) {
+     dispatch(setStatus(STATUSES.LOADING));
+     try {
+       const res = await api.get('/api/serviceSeeker/getall');
+       dispatch(setUsers(res.data));
+       dispatch(setStatus(STATUSES.IDLE))
+       
+     } catch (error) {
+       console.log(error);
+       dispatch(setStatus(STATUSES.ERROR));
+     }
+   }
+ }
+
+ 
+export function fetchsingleServiceSeeker(id) {
+   return async function (dispatch, getState) {
+     dispatch(setStatus(STATUSES.LOADING));
+     try {
+       const res = await api.get(`/api/serviceSeeker/getsingle/${id}`);
+       dispatch(setServiceSeeker(res.data));
+       dispatch(setStatus(STATUSES.IDLE))
+ 
+     } catch (error) {
+       console.log(error);
+       dispatch(setStatus(STATUSES.ERROR));
+     }
+   }
+ }

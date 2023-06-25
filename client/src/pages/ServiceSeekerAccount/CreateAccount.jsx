@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { createProfile } from '../../store/serviceSeekerSlide';
+import { createProfile } from '../../store/AuthSlice';
 import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 import { STATUSES } from '../../config';
 import Loader from '../../components/shared/Loader/Loader';
-import { setStatus } from '../../store/serviceSeekerSlide';
+import { setStatus } from '../../store/AuthSlice';
 const CreateAccount = () => {
   const [file, setFile] = useState(null);
   const [title,setTitle]=useState('');
@@ -21,7 +21,7 @@ const CreateAccount = () => {
   
   let dispatch=useDispatch();
   const {accessToken}= useSelector((state)=>state.auth.token)
-  const {status}=useSelector((state)=>state.serviceSeekers);
+  const {status}=useSelector((state)=>state.auth);
   const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
   const sucessNotify=(msg)=>toast.success(`${msg}`)
 

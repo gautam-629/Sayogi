@@ -1,10 +1,9 @@
 
-import path from 'path'
+import path from 'path';
 import Jimp from 'jimp';
 import { activateScheme } from "../../validators/validators";
 import userModels from "../../models/userModels";
 import CustomErrorHandler from "../../services/customErrorHandler";
-import { setTimeout } from 'timers/promises';
 import UserDto from '../../dtos/UserDto';
 const activateController = {
     async activate(req, res, next) {

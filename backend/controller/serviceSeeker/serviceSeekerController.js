@@ -3,80 +3,95 @@ import fs from 'fs';
 import { handleMultipartData } from "../../config";
 import CustomErrorHandler from "../../services/customErrorHandler";
 import { serviceSeekerSchema } from '../../validators/validators';
-import ServiceSeekerModel from '../../models/serviceSeeker';
-import ServiceSeeker from '../../dtos/ServiceSeeker';
-import mapServiceSeekersToDTO from '../../dtos/getAllServiceSeekerDTO';
-const Serviceseekers={
-    createAccount(req,res,next){
-       handleMultipartData(req,res,async(err)=>{
-          if(err){
-            return next(CustomErrorHandler.serverError(err.message));
-          }
-          const filePath = req.file.path;
-          //validation
-          try {
-            const result= await serviceSeekerSchema.validateAsync(req.body);
-          } catch (error) {
-              // Delete the uploaded file
-              fs.unlink(`${appRoot}/${filePath}`, (err) => {
-                if (err) {
-                    return next(
-                        CustomErrorHandler.serverError(err.message)
-                    );
-                }
-            });
-              return next(error);
-          }
-
-          let currentUser=req.currentUser._id;
-          const {title,address,charge,skills,experience,duration,email}=req.body;
-
-          let serviceSeeker
-           try {
-               serviceSeeker= await ServiceSeekerModel.create({
-                title,
-                address,
-                charge,
-                skills,
-                experience,
-                duration,
-                email,
-                cv: `/${filePath}`,
-                user:currentUser
-              })
-           } catch (error) {
-              return next(error);
-           }
-           res.status(201).json({
-            serviceSeeker:serviceSeeker
-           })
-       })
-    },
-
-  async  getAllServiceSeeker(req,res,next){
-           try {
-               const serviceSeeker = await ServiceSeekerModel.find().populate('user','phoneNumber name avatar');
-               const serviceSeekerDto= mapServiceSeekersToDTO(serviceSeeker);
-               res.status(201).json({
-                serviceSeeker:serviceSeekerDto
-               })
-           } catch (error) {
-            return next(error);
-           }
-    },
-
-    async  getSingleServiceSeeker(req,res,next){
-      try {
-          const serviceSeeker = await ServiceSeekerModel.findById(req.params.id).populate('user','phoneNumber name avatar');
-          const serviceSeekerDto=new ServiceSeeker(serviceSeeker);
-          res.status(201).json({
-           serviceSeeker:serviceSeekerDto
-          })
-      } catch (error) {
-       return next(error);
+import userModels  from '../../models/userModels';
+import UserDto from '../../dtos/UserDto';
+import mapUserDTO from '../../dtos/getAllUserDTO';
+const Serviceseekers = {
+  createAccount(req, res, next) {
+    handleMultipartData(req, res, async (err) => {
+      if (err) {
+        return next(CustomErrorHandler.serverError(err.message));
       }
-}
-  
+      const filePath = req.file.path;
+      //validation
+      try {
+        const result = await serviceSeekerSchema.validateAsync(req.body);
+      } catch (error) {
+        // Delete the uploaded file
+        fs.unlink(`${appRoot}/${filePath}`, (err) => {
+          if (err) {
+            return next(
+              CustomErrorHandler.serverError(err.message)
+            );
+          }
+        });
+        return next(error);
+      }
+
+      const { title, address, charge, skills, experience, duration, email } = req.body;
+      
+      try {
+        const userId = req.currentUser._id;
+        
+        const updatedUser = await userModels.updateOne(
+          { _id: userId },
+          {
+            $set: {
+              title: title,
+              address: address,
+              charge: charge,
+              skills: skills,
+              experience: experience,
+              duration: duration,
+              email: email,
+              cv: `/${filePath}`
+            }
+          }
+        );
+      
+        if (updatedUser.n === 0) {
+          return next(CustomErrorHandler.notFound("ServiceSeeker not found"));
+        }
+      
+        const user = await userModels.findOne({ _id: userId });
+        const userDto = new UserDto(user);
+      
+        res.json({
+          user: userDto,
+          auth: true
+        });
+      } catch (error) {
+        return next(error);
+      }
+      
+    })
+  },
+
+  async getAllServiceSeeker(req, res, next) {
+    try {
+      const user = await userModels .find();
+      const users= mapUserDTO(user)
+      res.status(201).json({
+        users: users
+      })
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  async getSingleServiceSeeker(req, res, next) {
+    try {
+      const user = await userModels.findById(req.params.id);
+      const userDto = new UserDto(user);
+        res.json({
+          user: userDto,
+          auth: true
+        })
+    } catch (error) {
+      return next(error);
+    }
+  }
+
 }
 
 export default Serviceseekers;

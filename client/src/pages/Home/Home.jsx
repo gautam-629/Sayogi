@@ -2,11 +2,17 @@ import React, { useEffect } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { fetchallServiceRequest } from '../../store/ServiceRequest';
 import ServiceCard from '../../components/shared/ServiceCard/ServiceCard';
+import {STATUSES} from '../../config/'
+import { setStatus } from '../../store/ServiceRequest';
 const Home = () => {
   let dispatch=useDispatch();
   const {serviceRequest}=useSelector((state)=>state.serviceRequests.serviceRequest);
   useEffect(()=>{
-    dispatch(fetchallServiceRequest())
+    dispatch(fetchallServiceRequest());
+
+    return ()=>{
+      dispatch(setStatus(STATUSES.IDLE))
+    }
   },[dispatch])
   return (
     <>
