@@ -54,7 +54,7 @@ export function fetchallServiceRequest() {
     dispatch(setStatus(STATUSES.LOADING));
     try {
       const res = await api.get('/api/servicerequest/getall');
-      dispatch(serviceRequestSlice(res.data));
+      dispatch(setServiceRequest(res.data));
       dispatch(setStatus(STATUSES.SUCESS))
 
     } catch (error) {

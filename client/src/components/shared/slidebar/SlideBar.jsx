@@ -20,7 +20,7 @@ const SlideBar = () => {
           <ul className='mt-3 gap-y-2'>
             <li className='flex gap-x-3 items-center pt-2 '>
               <img src={'/img/home.png'} height={10} width={25} alt='Home page' />
-              <span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Home</span>
+             <Link to={'/'}><span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Home</span></Link> 
             </li>
 
             <li className='flex gap-x-3 items-center pt-3'>

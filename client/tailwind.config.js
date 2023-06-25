@@ -12,6 +12,7 @@ export default {
         textColor:"#FFFFFF",
         secTextColor:'#C4C5C5',
         blue:'#0077FF',
+        tecBackColor:'#646363'
     }
     },
   },
