@@ -8,6 +8,6 @@ export const store = configureStore({
     auth:authSlice,
     activate:activate,
     serviceSeekers:serviceSeekerSlide,
-    serviceRequest:serRequestSlice
+    serviceRequests:serRequestSlice
   },
 })

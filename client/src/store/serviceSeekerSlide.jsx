@@ -40,6 +40,7 @@ export function createProfile(data, token) {
       });
       const res = await axiosInstance.post('/api/serviceSeeker/create', data);
       dispatch(setServiceSeeker(res.data));
+      localStorage.setItem('serviceSeeker',res.data.serviceSeeker.id);
       dispatch(setStatus(STATUSES.SUCESS))
     } catch (error) {
       console.log(error);

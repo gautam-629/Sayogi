@@ -6,6 +6,12 @@ const serviceRequestSchema=new mongoose.Schema({
     address:{type:String,required:true},
     description:{type:String,required:true},
     duration:{type:String,required:true},
+    // comments: [
+    //     {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: 'CommentModel',  
+    //     },
+    //   ],
     creator:{type:mongoose.Schema.Types.ObjectId,
         ref:'UserModel'
     }

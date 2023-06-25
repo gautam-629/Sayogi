@@ -5,9 +5,7 @@ let commentSchema=new mongoose.Schema({
         ref:'UserModel'
     },
      content:{type:String,required:true},
-     serSeeker:{type:mongoose.Schema.Types.ObjectId,
-        ref:'ServiceSeekerModel'
-    }
+   
 })
 
 export default mongoose.model('CommentModel',commentSchema,'comments');

@@ -1,34 +1,23 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { fetchallServiceRequest } from '../../store/ServiceRequest';
 import ServiceCard from '../../components/shared/ServiceCard/ServiceCard';
-import Kcomments from '../../components/shared/KComments/Kcomments';
 const Home = () => {
-  // let dispatch=useDispatch()
-  // useEffect(()=>{
-  //   dispatch(fetchallServiceRequest())
-  // },[dispatch])
+  let dispatch=useDispatch();
+  const {serviceRequest}=useSelector((state)=>state.serviceRequests.serviceRequest);
+  useEffect(()=>{
+    dispatch(fetchallServiceRequest())
+  },[dispatch])
   return (
     <>
-      <div className="flex flex-wrap gap-y-7 mt-8 overflow-y-scroll">
-        <div className="w-full sm:w-1/2">
-          <ServiceCard />
+     <div className="flex flex-wrap mt-8 overflow-y-scroll gap-y-2">
+      { serviceRequest && Array.isArray(serviceRequest) &&
+      serviceRequest.map((service) => (
+        <div key={service.id} className="w-full sm:w-1/2">
+          <ServiceCard service={service} />
         </div>
-        <div className="w-full sm:w-1/2">
-          <ServiceCard />
-        </div>
-        <div className="w-full sm:w-1/2">
-          <ServiceCard />
-        </div>
-        <div className="w-full sm:w-1/2">
-          <ServiceCard />
-        </div>
-        <div className="w-full sm:w-1/2">
-          <ServiceCard />
-        </div>
-      </div>
-
-
+      ))}
+    </div>
     </>
   )
 }
@@ -36,7 +25,7 @@ const Home = () => {
 export default Home;
 
 
-{/* <div className="flex flex-wrap">
+{/* <div className="flex flex-wrap mt-8 overflow-y-scroll">
       {serviceData.map((service) => (
         <div key={service.id} className="w-full sm:w-1/2">
           <ServiceCard title={service.title} />

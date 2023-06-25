@@ -15,17 +15,17 @@ const serviceSeekerSchema=new mongoose.Schema({
     },
     rating:{type:Number, default:3},
     reviews: [
-        // {
-        //     user: {
-        //         type: mongoose.Schema.ObjectId,
-        //         ref: 'User',
-        //         required: true
-        //     },
-        //     rating: {
-        //         type: Number,
-        //         required: true
-        //     },
-        // }
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true
+            },
+        }
     ],
 },{timestamps:true})
 export default mongoose.model('ServiceSeekerModel',serviceSeekerSchema,'serviceseekers');
