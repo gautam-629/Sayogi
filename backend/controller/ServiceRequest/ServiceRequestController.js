@@ -9,7 +9,6 @@ const serviceRequestController={
        } catch (error) {
         return next(error)
        }
-
        //create a ServiceReqest
        try {
         let currentUser=req.currentUser._id;
@@ -31,19 +30,42 @@ const serviceRequestController={
        }
     },
 
-  async getAllServiceRequest(req,res,next){
-                try {
-                    const serviceRequest= await ServiceRequestModel.find().populate('creator','name avatar');
+//   async getAllServiceRequest(req,res,next){
+//                 try {
+//                     const serviceRequest= await ServiceRequestModel.find()
+//                     .populate('creator','name avatar')
+//                     .populate('comments.user')
+//                     const mapServiceRequest=mapServiceRequestToDTO(serviceRequest)
+//                     res.status(201).json({
+//                         serviceRequest:mapServiceRequest
+//                     })
+//                 } catch (error) {
+//                     return next(error);
+//                 }
+//     }
 
-                    const mapServiceRequest=mapServiceRequestToDTO(serviceRequest)
-                    res.status(201).json({
-                        serviceRequest:mapServiceRequest
-                    })
-
-                } catch (error) {
-                    return next(error);
-                }
+async getAllServiceRequest(req, res, next) {
+    try {
+      const serviceRequests = await ServiceRequestModel.find()
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'user',
+            select: 'name avatar _id',
+          },
+        })
+        .populate('creator', 'name avatar');
+  
+      const mapServiceRequest = mapServiceRequestToDTO(serviceRequests);
+      res.status(201).json({
+        serviceRequest: mapServiceRequest,
+      });
+    } catch (error) {
+      return next(error);
     }
+  }
+  
+
 }
 
 export default serviceRequestController;
