@@ -13,6 +13,7 @@ class UserDto{
     email;
     cv;
     skills;
+    serviceSeeker;
 constructor(user){
     this.id=user._id;
     this.name=user.name;
@@ -29,6 +30,7 @@ constructor(user){
     this.cv=user.cv?`${process.env.BASE_URL}${user.cv}`:null;
     this.activated=user.activated;
     this.createdAt=user.createdAt;
+    this.serviceSeeker=user.serviceSeeker
 }
 
 }

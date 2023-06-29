@@ -7,13 +7,14 @@ import { setStatus } from '../../store/ServiceRequest';
 const Home = () => {
   let dispatch=useDispatch();
   const {serviceRequest}=useSelector((state)=>state.serviceRequests.serviceRequest);
+  const {comments}=useSelector((state)=>state.serviceRequests);
   useEffect(()=>{
     dispatch(fetchallServiceRequest());
 
     return ()=>{
       dispatch(setStatus(STATUSES.IDLE))
     }
-  },[dispatch])
+  },[dispatch,comments])
   return (
     <>
      <div className="flex flex-wrap mt-8 overflow-y-scroll gap-y-2">
@@ -30,11 +31,3 @@ const Home = () => {
 
 export default Home;
 
-
-{/* <div className="flex flex-wrap mt-8 overflow-y-scroll">
-      {serviceData.map((service) => (
-        <div key={service.id} className="w-full sm:w-1/2">
-          <ServiceCard title={service.title} />
-        </div>
-      ))}
-    </div> */}

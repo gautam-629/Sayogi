@@ -8,10 +8,11 @@ const Navbar = () => {
   const { user, isAuth } = useSelector((state) => state.auth);
   const { accessToken, refreshToken} = useSelector((state) => state.auth.token);
   const [open, setOpen] = useState(false);
+  const [notiopen,setNotiOpen]=useState(false);
   const imgRef = useRef();
   const menuRef = useRef();
   window.addEventListener('click', (e) => {
-    if (e.target !== menuRef.current && e.target !== imgRef.current) {
+    if (e.target !== menuRef.current && e.target !== imgRef.current ) {
       setOpen(false)
     }
   })
@@ -28,7 +29,7 @@ const Navbar = () => {
   
   return (
     <>
-      <div className='mt-4 flex justify-between'>
+      <div className='mt-4 flex relative justify-between'>
 
         <div>
           <label>
@@ -38,7 +39,27 @@ const Navbar = () => {
         </div>
 
         <div className='flex gap-24 mr-10'>
-          <img width={30} src={'/img/notification.png'} alt='notification' />
+
+      
+        <div className='relative'>
+        <img width={30}  onClick={(e)=>setNotiOpen(!notiopen)} className='mt-4' src={'/img/notification.png'} alt='notification' />
+           
+        {notiopen && <div className='bg-secBackColor h-auto -left-44 w-80 top-20 flex absolute rounded-md'>
+              <div>
+              <img className='inline-block h-12 w-12 ml-3 border-4 rounded-full cursor-pointer 
+                object-cover border-gray-400' src='/img/elon.jpg' alt="profile" />
+                <h2 className='text-textColor font-bold'>Binod Gautam</h2>
+              </div>
+              <div className='mr-2 inline-block'>
+                  <span className='text-secTextColor'>Binod Gautam Request you</span>
+                  <h2 className='text-blue mt-3 ml-8 cursor-pointer'>View Detail</h2>
+              </div>
+           </div>
+        }  
+
+          </div>
+
+
           {isAuth && user?.activated ?
             <div className='relative mr-10'>
               <img className='h-16 w-16 border-4 rounded-full

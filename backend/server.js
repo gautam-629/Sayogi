@@ -1,6 +1,6 @@
 
 import { PORT } from "./config/index.js";
-import  {auth,serviceSeeker,serviceRequest,comments}  from "./routes/index.js";
+import  {auth,serviceSeeker,serviceRequest,comments,notification}  from "./routes/index.js";
 import errorHandler from "./middlewares/errorhander.js";
 import express from 'express'
 import connectDB from "./config/database/ConnectDB.js";
@@ -25,10 +25,10 @@ app.use('/api',auth);
 app.use('/api/serviceSeeker',serviceSeeker);
 app.use('/api/servicerequest',serviceRequest);
 app.use('/api/comments',comments);
+app.use('/api/notification',notification)
 app.get('*',(req,res)=>{
      res.send('404 Fount found');
 })
-
 //config errorHandler
 app.use(errorHandler)
 

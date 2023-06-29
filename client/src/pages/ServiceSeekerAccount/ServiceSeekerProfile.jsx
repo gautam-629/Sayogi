@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import Avatar from '../../components/shared/Avatar/Avatar';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom';
 import { fetchsingleServiceSeeker } from '../../store/AuthSlice';
 const ServiceSeekerProfile = () => {
     let dispatch = useDispatch();
+    const location = useLocation();
+    const { serviceID,  receiver}=location.state || {} ;
     const { user } = useSelector((state) => state.auth.serviceSeeker);
     const { id } = useParams();
     useEffect(() => {

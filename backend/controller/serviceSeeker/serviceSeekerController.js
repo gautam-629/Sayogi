@@ -44,6 +44,7 @@ const Serviceseekers = {
               experience: experience,
               duration: duration,
               email: email,
+              serviceSeeker:true,
               cv: `/${filePath}`
             }
           }
@@ -55,7 +56,6 @@ const Serviceseekers = {
       
         const user = await userModels.findOne({ _id: userId });
         const userDto = new UserDto(user);
-      
         res.json({
           user: userDto,
           auth: true
@@ -69,11 +69,13 @@ const Serviceseekers = {
 
   async getAllServiceSeeker(req, res, next) {
     try {
-      const user = await userModels .find();
-      const users= mapUserDTO(user)
-      res.status(201).json({
-        users: users
-      })
+      const user = await userModels.find({serviceSeeker:true});
+      
+        const users= mapUserDTO(user)
+        res.status(201).json({
+          users: users
+        })
+      
     } catch (error) {
       return next(error);
     }

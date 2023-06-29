@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Kcomments from '../KComments/Kcomments';
 
 const ServiceCard = ({service}) => {
+  
   const [open,setOpen]=useState(false);
   return (
     <>
@@ -22,7 +23,7 @@ const ServiceCard = ({service}) => {
          <div className='ml-20  mt-3  '>
             <button onClick={(e)=>setOpen(!open)} className='bg-blue px-7 rounded-md text-center '>
                 <img className=' inline-block h-5 pb-1 mb-0.5 w-7' src="/img/comment.png" alt="comment" />
-                <span className='text-textColor font-bold text-lg pl-1 '>2</span>
+                <span className='text-textColor font-bold text-lg pl-1 '>{service.comments.length}</span>
             </button>
          </div>
          <div className='text-right'>
@@ -31,7 +32,8 @@ const ServiceCard = ({service}) => {
          </div>
       </div>
       <div>
-     { open && <Kcomments setopen={setOpen}/>}  
+     { open &&
+      <Kcomments setopen={setOpen} comments={service.comments} serviceId={service.id}/>}  
       </div>
     </>
   )

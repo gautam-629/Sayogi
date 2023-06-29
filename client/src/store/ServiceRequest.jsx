@@ -4,7 +4,8 @@ import { api } from '../config';
 import axios from 'axios';
 const initialState = {
   serviceRequest: [],
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
+  comments:[],
 };
 
 const serviceRequestSlice = createSlice({
@@ -16,12 +17,14 @@ const serviceRequestSlice = createSlice({
     },
     setStatus(state, action) {
       state.status = action.payload;
+    },
+    setComments(state,action){
+      state.comments=action.payload;
     }
-
   }
 })
 
-export const { setServiceRequest, setStatus } = serviceRequestSlice.actions;
+export const { setServiceRequest, setStatus,setComments } = serviceRequestSlice.actions;
 export default serviceRequestSlice.reducer;
 
 

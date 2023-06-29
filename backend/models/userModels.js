@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: false },
     cv: { type: String, required: false },
     rating: { type: Number, default: 3 },
+    serviceSeeker:{type:Boolean, default:false}
     // reviews: [
     //     {
     //         user: {

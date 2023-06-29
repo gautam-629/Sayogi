@@ -58,7 +58,7 @@ async getAllServiceRequest(req, res, next) {
   
       const mapServiceRequest = mapServiceRequestToDTO(serviceRequests);
       res.status(201).json({
-        serviceRequest: mapServiceRequest,
+        serviceRequest:mapServiceRequest,
       });
     } catch (error) {
       return next(error);

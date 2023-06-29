@@ -8,12 +8,14 @@ class AllServiceRequest{
     avatar;
     name;
     createdAt;
+    comments;
 
     constructor(serviceRequest){
         this.id=serviceRequest._id;
         this.title=serviceRequest.title;
         this.charge=serviceRequest.charge;
         this.address=serviceRequest.address;
+        this.comments=serviceRequest.comments;
         this.description=serviceRequest.description;
         this.createdAt=serviceRequest.createdAt;
         this.name=serviceRequest.creator.name;

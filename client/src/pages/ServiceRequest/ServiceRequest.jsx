@@ -14,7 +14,7 @@ const ServiceRequest = () => {
   const [description,setDescription]=useState('');
 
   const {status}=useSelector((state)=>state.serviceRequests);
-  const {accessToken}= useSelector((state)=>state.auth.token)
+  const {accessToken}= useSelector((state)=>state.auth.token);
   let dispatch=useDispatch();
   const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
   const sucessNotify=(msg)=>toast.success(`${msg}`)
