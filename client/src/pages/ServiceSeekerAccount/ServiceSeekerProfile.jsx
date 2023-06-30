@@ -4,15 +4,40 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 import { fetchsingleServiceSeeker } from '../../store/AuthSlice';
+import { toast } from 'react-toastify';
+import { STATUSES } from '../../config';
+import { setStatus } from '../../store/Notification';
+import { createNotification } from '../../store/Notification';
 const ServiceSeekerProfile = () => {
+
     let dispatch = useDispatch();
     const location = useLocation();
     const { serviceID,  receiver}=location.state || {} ;
     const { user } = useSelector((state) => state.auth.serviceSeeker);
+    const {accessToken}= useSelector((state)=>state.auth.token);
+    const {status}=useSelector((state)=>state.notification);
     const { id } = useParams();
+
+    const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
+    const sucessNotify=(msg)=>toast.success(`${msg}`)
+
     useEffect(() => {
         dispatch(fetchsingleServiceSeeker(id));
-    }, [id])
+
+        if(status===STATUSES.ERROR){
+            errorNotify("Something went wong!");
+      }
+      if(status===STATUSES.SUCESS){
+         sucessNotify("Sucessfully Request to Hire 💚");
+      }
+      return ()=>{
+       dispatch(setStatus(STATUSES.IDLE))
+     }
+
+    }, [id,dispatch,status])
+   function RequestNotification(e){
+        dispatch(createNotification(receiver,serviceID,accessToken))
+    }
     return (
         <>
             {user && (
@@ -52,7 +77,7 @@ const ServiceSeekerProfile = () => {
                             </h2>
                         </div>
                         <div className='flex items-center justify-center'>
-                            <button className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>
+                            <button onClick={RequestNotification} className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>
                         </div>
                     </div>
                 </div>

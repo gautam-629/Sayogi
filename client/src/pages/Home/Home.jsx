@@ -4,13 +4,15 @@ import { fetchallServiceRequest } from '../../store/ServiceRequest';
 import ServiceCard from '../../components/shared/ServiceCard/ServiceCard';
 import {STATUSES} from '../../config/'
 import { setStatus } from '../../store/ServiceRequest';
+import { fetchNotification } from '../../store/Notification';
 const Home = () => {
   let dispatch=useDispatch();
   const {serviceRequest}=useSelector((state)=>state.serviceRequests.serviceRequest);
   const {comments}=useSelector((state)=>state.serviceRequests);
+  const {accessToken}= useSelector((state)=>state.auth.token);
   useEffect(()=>{
     dispatch(fetchallServiceRequest());
-
+    dispatch(fetchNotification(accessToken));
     return ()=>{
       dispatch(setStatus(STATUSES.IDLE))
     }
