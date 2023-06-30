@@ -10,7 +10,7 @@ const ServiceRequest = () => {
   const [title,setTitle]=useState('');
   const [address,setAddress]=useState('');
   const [charge,setCharge]=useState('');
-  const [duration,setSelectDuration]=useState('');
+  const [duration,setSelectDuration]=useState('hour');
   const [description,setDescription]=useState('');
 
   const {status}=useSelector((state)=>state.serviceRequests);

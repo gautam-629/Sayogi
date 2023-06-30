@@ -14,7 +14,7 @@ const CreateAccount = () => {
   const [address,setAddress]=useState('');
   const [skills,setSkills]=useState('');
   const [charge,setCharge]=useState('');
-  const [selectDuration,setSelectDuration]=useState('');
+  const [selectDuration,setSelectDuration]=useState('hour');
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };

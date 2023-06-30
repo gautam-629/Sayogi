@@ -9,10 +9,11 @@ class AllServiceRequest{
     name;
     createdAt;
     comments;
-
+    status;
     constructor(serviceRequest){
         this.id=serviceRequest._id;
         this.title=serviceRequest.title;
+        this.status=serviceRequest.status;
         this.charge=serviceRequest.charge;
         this.address=serviceRequest.address;
         this.comments=serviceRequest.comments;

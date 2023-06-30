@@ -6,6 +6,7 @@ const serviceRequestSchema = new mongoose.Schema({
     address: { type: String, required: true },
     description: { type: String, required: true },
     duration: { type: String, required: true },
+    status:{type:String,required:false, default:'pending'},
     comments: [
         {
             content: { type: String, required: false },

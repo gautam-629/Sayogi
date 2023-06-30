@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAuth } from '../../../store/AuthSlice';
 import { makeLogout } from '../../../http';
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  let  navigate=useNavigate();
   let dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.auth);
   const { notification } = useSelector((state) => state.notification.notifications)
@@ -27,6 +29,13 @@ const Navbar = () => {
       console.log(error)
     }
   }
+  const handleViewDetail = (serviceDetail) => {
+    navigate(`/requestdetail`, {
+      state: {
+        serviceDetail:serviceDetail
+      }
+    });
+  };
   return (
     <>
       <div className='mt-4 flex relative justify-between'>
@@ -42,11 +51,12 @@ const Navbar = () => {
 
 
           <div className='relative'>
+          {isAuth && user?.activated &&
+             <div>
             <img  width={30} onClick={(e) => setNotiOpen(!notiopen)} className='mt-4 cursor-pointer' src={'/img/notification.png'} alt='notification' />
             <span className='text-red-600 bg-secBackColor rounded-lg px-1 font-bold text-lg absolute top-2 left-6'>{ Array.isArray(notification)?notification.length:0}</span>
-
-
-
+            </div>
+          }
             {notiopen &&
               <div className='bg-secBackColor h-96 -left-44 w-80 top-20 px-1 absolute rounded-md'>
                 {
@@ -58,7 +68,7 @@ const Navbar = () => {
                         object-cover border-gray-400'  src={`http://localhost:5000${noti.sender.avatar}`} alt="profile" />
                         <h2 className='text-textColor font-bold'>{noti.sender.name}</h2>
                       </div>
-                      <div className='mr-2 inline-block'>
+                      <div onClick={(e)=>handleViewDetail(noti)} className='mr-2 inline-block'>
                         <span className='text-textColor'>{`${noti.sender.name} Request You`}</span>
                         <h2 className='text-blue mt-3 ml-8 font-bold cursor-pointer'>View Detail</h2>
                       </div>

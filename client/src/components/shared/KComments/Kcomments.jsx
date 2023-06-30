@@ -48,7 +48,7 @@ const Kcomments = ({ setopen, comments,serviceId }) => {
             );
          })}
 
-         {isAuth && user?.activated &&
+         {isAuth && user?.activated && user?.serviceSeeker &&
           <div className='flex mt-14 gap-3'>
           <img className='inline-block h-12 w-12 ml-3 border-4 rounded-full cursor-pointer object-cover
            border-gray-400' src={user?.avatar} alt="profile" />
@@ -62,5 +62,4 @@ const Kcomments = ({ setopen, comments,serviceId }) => {
       </div>
    );
 }
-
 export default Kcomments;

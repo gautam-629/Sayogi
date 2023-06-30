@@ -14,6 +14,7 @@ import CreateAccount from './pages/ServiceSeekerAccount/CreateAccount';
 import AllServiceSeeker from './pages/ServiceSeekerAccount/AllServiceSeeker';
 import ServiceSeekerProfile from './pages/ServiceSeekerAccount/ServiceSeekerProfile';
 import Home from './pages/Home/Home';
+import RequestDetail from './pages/ServiceReceiver/RequestDetail';
 const App = () => {
   const { loading } = useLoadingWithRefresh();
   return loading ? (
@@ -53,6 +54,7 @@ const App = () => {
               <Route path='/getallserviceseeker' element={<AllServiceSeeker />} />
               <Route path='/getserviceseekerprofile/:id' element={<ServiceSeekerProfile />} />
               <Route path='/' element={<Home />} />
+              <Route path='/requestdetail' element={<RequestDetail />} />
             </Routes>
           </div>
         </div>

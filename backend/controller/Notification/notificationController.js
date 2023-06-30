@@ -21,7 +21,7 @@ const NotificationController={
      async findNotification(req,res,next){
         try {
           const notification= await notificationModels.find({reciverID:req.currentUser._id})
-          .populate('sender','name avatar')
+          .populate('sender','name avatar phoneNumber')
           .populate('serviceRequest')
         
           res.status(201).json({
