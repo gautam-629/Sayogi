@@ -1,6 +1,7 @@
 import { serviceRequestSchema } from "../../validators/Validators";
 import ServiceRequestModel from '../../models/ServiceRequest';
 import mapServiceRequestToDTO from "../../dtos/ServiceRequst";
+import CustomErrorHandler from "../../services/customErrorHandler";
 const serviceRequestController={
    async serviceRequest(req,res,next){
        //validation
@@ -63,6 +64,22 @@ async getAllServiceRequest(req, res, next) {
     } catch (error) {
       return next(error);
     }
+  },
+
+  async UpdateOne(req,res,next){
+         const {serviceID,status,receiver}=req.body;
+         const sender=req.currentUser._id;
+        try {
+          const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,{status,receiver,sender});
+          if(!serviceRequest){
+            return next(CustomErrorHandler.notFound("Service Not found"))
+          }
+          res.status(201).json({
+             serviceRequest:serviceRequest
+          })
+        } catch (error) {
+          return next(error)
+        }
   }
   
 

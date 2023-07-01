@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { STATUSES } from '../../config';
 import { setStatus } from '../../store/Notification';
 import { createNotification } from '../../store/Notification';
+import { updateServiceRequest } from '../../store/ServiceRequest';
 const ServiceSeekerProfile = () => {
 
     let dispatch = useDispatch();
@@ -36,7 +37,10 @@ const ServiceSeekerProfile = () => {
 
     }, [id,dispatch,status])
    function RequestNotification(e){
-        dispatch(createNotification(receiver,serviceID,accessToken))
+        dispatch(createNotification(receiver,serviceID,accessToken));
+
+        dispatch(updateServiceRequest({serviceID,receiver},accessToken));
+        console.log({serviceID,receiver})
     }
     return (
         <>

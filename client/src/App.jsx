@@ -54,7 +54,12 @@ const App = () => {
               <Route path='/getallserviceseeker' element={<AllServiceSeeker />} />
               <Route path='/getserviceseekerprofile/:id' element={<ServiceSeekerProfile />} />
               <Route path='/' element={<Home />} />
-              <Route path='/requestdetail' element={<RequestDetail />} />
+              <Route path='/requestdetail' element={
+                <ProtectedProtectedRoute>
+                  <RequestDetail />
+                </ProtectedProtectedRoute>
+              }
+              />
             </Routes>
           </div>
         </div>

@@ -15,7 +15,7 @@ const ServiceCard = ({service}) => {
           <h2 className='text-secTextColor font-bold pl-11 pt-1'>{service.title}</h2>
           <hr />
           <p className='text-textColor pt-2 pr-2'>{service.description}</p>
-         <p className='text-textColor pt-2 pl-3'>{`I am willing to pay Nrs${service.charge} per hour`} </p>
+         <p className='text-textColor pt-2 pl-3'>{`I am willing to pay Nrs ${service.charge} per hour`} </p>
          <div className='mt-2 ml-2'>
             <img className='inline-block h-4 w-4' src="/img/location.png" alt="location" />
             <span className='text-textColor pl-2'>{service.address}</span>

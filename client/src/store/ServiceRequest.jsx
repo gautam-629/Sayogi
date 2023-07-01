@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { STATUSES } from '../config';
 import { api } from '../config';
 import axios from 'axios';
+
 const initialState = {
   serviceRequest: [],
   status: STATUSES.IDLE,
@@ -67,3 +68,25 @@ export function fetchallServiceRequest() {
   }
 }
 
+export function updateServiceRequest(data, token) {
+  return async function (dispatch, getState) {
+    dispatch(setStatus(STATUSES.LOADING))
+    try {
+      const axiosInstance = axios.create({
+        baseURL: 'http://localhost:5000',
+        headers: {
+          common: {
+            'Authorization': `Bearer ${token}`,
+          },
+        },
+      });
+      const res = await axiosInstance.patch('/api/servicerequest/update', data);
+      dispatch(setServiceRequest(res.data));
+      dispatch(setStatus(STATUSES.IDLE))
+    } catch (error) {
+      console.log(error);
+      dispatch(setStatus(STATUSES.ERROR))
+    }
+
+  }
+}

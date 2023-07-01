@@ -1,17 +1,35 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { updateServiceRequest } from '../../store/ServiceRequest';
+import { toast } from 'react-toastify';
 const RequestDetail = () => {
+
+    const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
+    const sucessNotify = (msg) => toast.success(`${msg}!`);
+
+    let dispatch=useDispatch();
+    const {accessToken} = useSelector((state) => state.auth.token);
     const [open, setOpen] = useState(false);
     const location = useLocation();
     const { serviceDetail } = location.state || {};
-    console.log(serviceDetail)
+    
+    function CancelRequest(id,status){
+        dispatch(updateServiceRequest({id,status},accessToken))
+        errorNotify("You have cancel the request");
+        setOpen(false)
+    }
+    function AcceptRequest(serviceID,status){
+        dispatch(updateServiceRequest({serviceID,status},accessToken))
+        sucessNotify("you have Accept the request");
+    }
     return (
         <>
             <div className='flex justify-center items-center mt-12 flex-col '>
                 <div className='bg-secBackColor w-96 h-auto rounded-md p-3'>
                     <div>
                         <img className='inline-block h-12 w-12 ml-3 border-4 rounded-full  cursor-pointer 
-               object-cover border-gray-400' src='/img/elon.jpg' alt="profile" />
+               object-cover border-gray-400' src={`http://localhost:5000${serviceDetail.sender.avatar}`} alt="profile" />
                         <span className='text-textColor font-bold pl-2'>{serviceDetail.sender.name}</span>
                     </div>
                     <h2 className='text-secTextColor font-bold pl-11 pt-1'>{serviceDetail.serviceRequest.title}</h2>
@@ -27,8 +45,8 @@ const RequestDetail = () => {
                         <span className='text-textColor'>Aug 26 2021</span>
                     </div>
                     <div className='flex justify-between px-6'>
-                        <button onClick={()=>setOpen(true)} className='bg-blue px-3 py-0.5 rounded-md mt-3 text-textColor font-bold'>Accept</button>
-                        <button className='bg-blue px-3 py-0.5 rounded-md mt-3 text-textColor font-bold'>Reject</button>
+                        <button onClick={() => { AcceptRequest(serviceDetail.serviceRequest._id,'accept'); setOpen(true); }} className='bg-blue px-3 py-0.5 rounded-md mt-3 text-textColor font-bold'>Accept</button>
+                        <button onClick={(e)=>CancelRequest(serviceDetail.serviceRequest._id,'reject')} className='bg-blue px-3 py-0.5 rounded-md mt-3 text-textColor font-bold'>Reject</button>
                     </div>
                 </div>
                 {open &&
