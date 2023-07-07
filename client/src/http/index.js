@@ -88,3 +88,51 @@ export async function createComments(content,serviceID,accessToken){
   }
   
 }
+
+export function findServiceReceiver(accessToken){
+  try {
+      const axiosInstance= axios.create({
+        baseURL:'http://localhost:5000',
+        headers:{
+          common:{
+            'Authorization':`Bearer ${accessToken}`
+          }
+        }
+      })
+      return axiosInstance.get('/api/servicerequest/receiver')
+  } catch (error) {
+      console.log(error)
+  }
+}
+
+export function findServiceProvider(accessToken){
+  try {
+      const axiosInstance= axios.create({
+        baseURL:'http://localhost:5000',
+        headers:{
+          common:{
+            'Authorization':`Bearer ${accessToken}`
+          }
+        }
+      })
+      return axiosInstance.get('/api/servicerequest/provider')
+  } catch (error) {
+      console.log(error)
+  }
+}
+
+export function findServiceHistory(accessToken){
+  try {
+      const axiosInstance= axios.create({
+        baseURL:'http://localhost:5000',
+        headers:{
+          common:{
+            'Authorization':`Bearer ${accessToken}`
+          }
+        }
+      })
+      return axiosInstance.get('/api/servicerequest/servicehistory')
+  } catch (error) {
+      console.log(error)
+  }
+}

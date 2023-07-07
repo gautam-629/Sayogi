@@ -69,8 +69,9 @@ async getAllServiceRequest(req, res, next) {
   async UpdateOne(req,res,next){
          const {serviceID,status,receiver}=req.body;
          const sender=req.currentUser._id;
+        
         try {
-          const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,{status,receiver,sender});
+          const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,{status,receiver,sender,acceptOn:Date.now()});
           if(!serviceRequest){
             return next(CustomErrorHandler.notFound("Service Not found"))
           }
@@ -80,8 +81,59 @@ async getAllServiceRequest(req, res, next) {
         } catch (error) {
           return next(error)
         }
-  }
+  },
   
+ async findOneReceiver(req,res,next){
+        let condition={
+          receiver:req.currentUser._id,
+          status:'accept'
+        }
+         try {
+          const serviceRequest= await ServiceRequestModel.find(condition)
+            .populate('sender','name' )
+
+            res.status(201).json({
+              serviceRequest:serviceRequest
+            })
+         } catch (error) {
+            return next(error);
+         }
+  },
+
+  async findOneProvider(req,res,next){
+    let condition={
+      sender:req.currentUser._id,
+      status:'accept'
+    }
+     try {
+      const serviceRequest= await ServiceRequestModel.find(condition)
+        .populate('receiver','name' )
+
+        res.status(201).json({
+          serviceRequest:serviceRequest
+        })
+     } catch (error) {
+        return next(error);
+     }
+},
+
+async findServiceHistory(req,res,next){
+  
+  let condition={
+    creator:req.currentUser._id,
+    status:'accept'
+  }
+   try {
+    const serviceRequest= await ServiceRequestModel.find(condition)
+      .populate('creator','name avatar' )
+
+      res.status(201).json({
+        serviceRequest:serviceRequest
+      })
+   } catch (error) {
+      return next(error);
+   }
+}
 
 }
 

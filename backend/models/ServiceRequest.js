@@ -7,8 +7,15 @@ const serviceRequestSchema = new mongoose.Schema({
     description: { type: String, required: true },
     duration: { type: String, required: true },
     status:{type:String,required:false, default:'pending'},
-    receiver:{type:String,required:false},
-    sender:{type:String,required:false},
+    acceptOn:{type:Date},
+    receiver:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserModel'
+    },
+    sender:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserModel'
+    },
     comments: [
         {
             content: { type: String, required: false },

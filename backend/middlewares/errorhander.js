@@ -17,7 +17,7 @@ const errorHandler = (err, req, res, next) => {
   if (err instanceof CustomErrorHandler) {
     statusCode = err.statusCode;
     data = {
-      message: err.stack
+      message: err.message
     }
   }
 

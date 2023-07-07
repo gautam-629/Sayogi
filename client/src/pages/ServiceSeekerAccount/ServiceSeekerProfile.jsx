@@ -9,12 +9,14 @@ import { STATUSES } from '../../config';
 import { setStatus } from '../../store/Notification';
 import { createNotification } from '../../store/Notification';
 import { updateServiceRequest } from '../../store/ServiceRequest';
+
 const ServiceSeekerProfile = () => {
 
     let dispatch = useDispatch();
     const location = useLocation();
     const { serviceID,  receiver}=location.state || {} ;
     const { user } = useSelector((state) => state.auth.serviceSeeker);
+    const { user:currentUser } = useSelector((state) => state.auth);
     const {accessToken}= useSelector((state)=>state.auth.token);
     const {status}=useSelector((state)=>state.notification);
     const { id } = useParams();
@@ -42,6 +44,8 @@ const ServiceSeekerProfile = () => {
         dispatch(updateServiceRequest({serviceID,receiver},accessToken));
         console.log({serviceID,receiver})
     }
+
+   
     return (
         <>
             {user && (
@@ -81,7 +85,7 @@ const ServiceSeekerProfile = () => {
                             </h2>
                         </div>
                         <div className='flex items-center justify-center'>
-                            <button onClick={RequestNotification} className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>
+                         {receiver===currentUser.id?null:<button onClick={RequestNotification} className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>}  
                         </div>
                     </div>
                 </div>

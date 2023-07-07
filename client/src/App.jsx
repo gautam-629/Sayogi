@@ -15,6 +15,9 @@ import AllServiceSeeker from './pages/ServiceSeekerAccount/AllServiceSeeker';
 import ServiceSeekerProfile from './pages/ServiceSeekerAccount/ServiceSeekerProfile';
 import Home from './pages/Home/Home';
 import RequestDetail from './pages/ServiceReceiver/RequestDetail';
+import ServiceReceiver from './pages/History/ServiceReceiver';
+import ServiceProvider from './pages/History/ServiceProvider';
+import Service from './pages/History/Service';
 const App = () => {
   const { loading } = useLoadingWithRefresh();
   return loading ? (
@@ -60,6 +63,9 @@ const App = () => {
                 </ProtectedProtectedRoute>
               }
               />
+              <Route path='/servicereceiver' element={<ServiceReceiver />} />
+              <Route path='/serviceprovider' element={<ServiceProvider />} />
+              <Route path='/servicehistory' element={<Service />} />
             </Routes>
           </div>
         </div>

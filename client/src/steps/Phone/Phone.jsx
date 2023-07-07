@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from '../../components/shared/Card/Card';
 import Button from '../../components/shared/Button/Button';
 import InputText from '../../components/shared/InputText/InputText';
-import { sendOtpRequest } from '../../store/AuthSlice';
+import { sendOtpRequest, setStatus } from '../../store/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { STATUSES } from '../../config';
@@ -41,7 +41,11 @@ const Phone = ({ handleOnNext }) => {
       errorNotify('Internal Server Error');
     }
 
-  }, [status])
+    return()=>{
+      dispatch(setStatus(STATUSES.IDLE));
+    }
+
+  }, [status,dispatch])
   return (
     <>
       <div className='flex w-full h-screen justify-center items-center'>

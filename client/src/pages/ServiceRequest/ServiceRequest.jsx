@@ -30,7 +30,7 @@ useEffect(()=>{
         errorNotify("Something went wong!");
   }
   if(status===STATUSES.SUCESS){
-     sucessNotify("Porfile created sucessfully 💚");
+     sucessNotify("ServiceRequest created sucessfully 💚");
   }
 
   return ()=>{

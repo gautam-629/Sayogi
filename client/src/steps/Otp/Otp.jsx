@@ -6,12 +6,13 @@ import { verifyOtpRequest } from '../../store/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATUSES } from '../../config';
 import { toast } from 'react-toastify';
+import { setStatus } from '../../store/AuthSlice';
 import {useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 
 const otpSchema = Yup.string()
   .required('otp is required')
-  .length(4, 'Phone number must be 4 digits');
+  .length(4, 'Otp must be 4 digits');
 
 const Otp = ({ handleOnNext }) => {
   let navigate=useNavigate();
@@ -19,6 +20,9 @@ const Otp = ({ handleOnNext }) => {
   const { phoneNumber, hash } = useSelector((state) => state.auth.otp);
 
   const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
+
+  const {errMessage}=useSelector((state)=>state.auth);
+
   let dispatch = useDispatch();
 
   async function verifyOtp() {
@@ -39,9 +43,12 @@ const Otp = ({ handleOnNext }) => {
 
   useEffect(() => {
     if (status === STATUSES.ERROR) {
-      errorNotify('Internal Server Error');
+      errorNotify(errMessage?errMessage:"");
     }
-  }, [status])
+    return()=>{
+      dispatch(setStatus(STATUSES.IDLE));
+    }
+  }, [status,dispatch])
 
   return (
     <>

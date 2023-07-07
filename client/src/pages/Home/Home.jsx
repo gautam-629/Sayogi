@@ -5,6 +5,7 @@ import ServiceCard from '../../components/shared/ServiceCard/ServiceCard';
 import {STATUSES} from '../../config/'
 import { setStatus } from '../../store/ServiceRequest';
 import { fetchNotification } from '../../store/Notification';
+import RatingInput from '../../components/shared/RatingInput/RatingInput';
 const Home = () => {
   let dispatch=useDispatch();
   const {serviceRequest}=useSelector((state)=>state.serviceRequests.serviceRequest);
@@ -27,6 +28,7 @@ const Home = () => {
         </div>
       ))}
     </div>
+    
     </>
   )
 }

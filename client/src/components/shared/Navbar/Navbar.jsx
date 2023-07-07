@@ -1,19 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAuth } from '../../../store/AuthSlice';
 import { makeLogout } from '../../../http';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 const Navbar = () => {
+  
   let  navigate=useNavigate();
   let dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.auth);
-  const { notification } = useSelector((state) => state.notification.notifications)
+  const { notification } = useSelector((state) => state.notification.notifications);
+
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    if (Array.isArray(notification)) {
+      setNotificationCount(notification.length);
+    }
+  }, [notification])
+
   const { accessToken, refreshToken } = useSelector((state) => state.auth.token);
   const [open, setOpen] = useState(false);
   const [notiopen, setNotiOpen] = useState(false);
   const imgRef = useRef();
   const menuRef = useRef();
+  
   window.addEventListener('click', (e) => {
     if (e.target !== menuRef.current && e.target !== imgRef.current) {
       setOpen(false)
@@ -36,6 +48,25 @@ const Navbar = () => {
       }
     });
   };
+  const handleClick = (e) => {
+    console.log("clicket")
+    setNotificationCount(0);
+  };
+
+  const socket = io('http://localhost:5000');
+
+  useEffect(() => {
+   
+    socket.emit('fromClient',{
+      msg:"Hello"
+    })
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+
   return (
     <>
       <div className='mt-4 flex relative justify-between'>
@@ -50,11 +81,15 @@ const Navbar = () => {
         <div className='flex gap-24 mr-10'>
 
 
-          <div className='relative'>
+          <div onClick={handleClick} className='relative'>
           {isAuth && user?.activated &&
              <div>
             <img  width={30} onClick={(e) => setNotiOpen(!notiopen)} className='mt-4 cursor-pointer' src={'/img/notification.png'} alt='notification' />
-            <span className='text-red-600 bg-secBackColor rounded-lg px-1 font-bold text-lg absolute top-2 left-6'>{ Array.isArray(notification)?notification.length:0}</span>
+            <span className='text-red-600 bg-secBackColor rounded-lg px-1 font-bold text-lg absolute top-2 left-6'
+            
+            >
+               {notificationCount}</span>
+              
             </div>
           }
             {notiopen &&

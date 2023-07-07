@@ -20,7 +20,7 @@ const SlideBar = () => {
           <ul className='mt-3 gap-y-2'>
             <li className='flex gap-x-3 items-center pt-2 '>
               <img src={'/img/home.png'} height={10} width={25} alt='Home page' />
-             <Link to={'/'}><span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Home</span></Link> 
+              <Link to={'/'}><span className={`text-textColor ${!open && 'hidden'} cursor-pointer hover:border-b-4 border-blue text-xl font-bold`}>Home</span></Link>
             </li>
 
             <li className='flex gap-x-3 items-center pt-3'>
@@ -53,15 +53,21 @@ const SlideBar = () => {
               <ul className='pl-5 pt-1 duration-200 '>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                  <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Receiver</span>
+                  <Link to={'servicereceiver'}>
+                    <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Receiver</span>
+                  </Link>
                 </li>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                  <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Provider</span>
+                  <Link to={'serviceprovider'}>
+                    <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Provider</span>
+                  </Link>
                 </li>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                  <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service History</span>
+                <Link to={'servicehistory'}>
+                <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service History</span>
+                </Link>  
                 </li>
               </ul>
             }

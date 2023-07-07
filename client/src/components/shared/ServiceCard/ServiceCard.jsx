@@ -28,7 +28,7 @@ const ServiceCard = ({service}) => {
          </div>
          <div className='text-right'>
          <span className='text-secTextColor font-bold'> Ponted on : </span>
-         <span className='text-textColor'>Aug 26 2021</span>
+         <span className='text-textColor'>{ new Date(service.createdAt).toLocaleString()  }</span>
          </div>
       </div>
       <div>

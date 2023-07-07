@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { updateServiceRequest } from '../../store/ServiceRequest';
 import { toast } from 'react-toastify';
+import { setStatus } from '../../store/ServiceRequest';
+import { STATUSES } from '../../config';
 const RequestDetail = () => {
 
     const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
@@ -14,8 +16,8 @@ const RequestDetail = () => {
     const location = useLocation();
     const { serviceDetail } = location.state || {};
     
-    function CancelRequest(id,status){
-        dispatch(updateServiceRequest({id,status},accessToken))
+    function CancelRequest(serviceID,status){
+        dispatch(updateServiceRequest({serviceID,status},accessToken))
         errorNotify("You have cancel the request");
         setOpen(false)
     }
@@ -23,6 +25,11 @@ const RequestDetail = () => {
         dispatch(updateServiceRequest({serviceID,status},accessToken))
         sucessNotify("you have Accept the request");
     }
+    useEffect(()=>{
+        return ()=>{
+            dispatch(setStatus(STATUSES.IDLE));
+        }
+    })
     return (
         <>
             <div className='flex justify-center items-center mt-12 flex-col '>
