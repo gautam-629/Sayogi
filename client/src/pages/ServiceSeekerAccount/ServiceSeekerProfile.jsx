@@ -42,7 +42,7 @@ const ServiceSeekerProfile = () => {
         dispatch(createNotification(receiver,serviceID,accessToken));
 
         dispatch(updateServiceRequest({serviceID,receiver},accessToken));
-        console.log({serviceID,receiver})
+       
     }
 
    

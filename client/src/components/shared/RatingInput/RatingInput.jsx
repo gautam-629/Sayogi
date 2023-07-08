@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
-
-const RatingInput = () => {
+import { createReview } from '../../../http';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+const RatingInput = ({userId}) => {
+  const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
+  const sucessNotify = (msg) => toast.success(`${msg}!`);
   const [rating, setRating] = useState(0);
-
-  const handleClick = (value) => {
+  const { accessToken } = useSelector((state) => state.auth.token);
+  const handleClick = async (value) => {
     if (rating === value) {
       // If the same rating is clicked again, reset to 0
       setRating(0);
     } else {
       setRating(value);
     }
+ 
+     try {
+        const res=await createReview(rating,userId,accessToken)
+        if(res.data){
+          sucessNotify("Thank you for your rating")
+        }
+     } catch (error) {
+      console.log(error)
+      errorNotify('Sorry Something went Wrong');
+     }
+         
   };
+
+
 
   return (
     <div className="rating flex items-center">
@@ -36,7 +53,7 @@ const RatingInput = () => {
           </label>
         );
       })}
-      {/* <div className="selected-rating ml-3 text-lg font-semibold">{rating}</div> */}
+      {console.log(rating)}
     </div>
   );
 };

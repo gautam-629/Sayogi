@@ -31,19 +31,6 @@ const serviceRequestController={
        }
     },
 
-//   async getAllServiceRequest(req,res,next){
-//                 try {
-//                     const serviceRequest= await ServiceRequestModel.find()
-//                     .populate('creator','name avatar')
-//                     .populate('comments.user')
-//                     const mapServiceRequest=mapServiceRequestToDTO(serviceRequest)
-//                     res.status(201).json({
-//                         serviceRequest:mapServiceRequest
-//                     })
-//                 } catch (error) {
-//                     return next(error);
-//                 }
-//     }
 
 async getAllServiceRequest(req, res, next) {
     try {
@@ -68,10 +55,24 @@ async getAllServiceRequest(req, res, next) {
 
   async UpdateOne(req,res,next){
          const {serviceID,status,receiver}=req.body;
-         const sender=req.currentUser._id;
         
+        if(receiver!=undefined){
+        var data={
+          status:status,
+          receiver:receiver,
+          sender:req.currentUser._id,
+          acceptOn:Date.now()
+        }
+      }
+      else{
+        var data={
+          status:status,
+          acceptOn:Date.now()
+        }
+      }
+      
         try {
-          const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,{status,receiver,sender,acceptOn:Date.now()});
+          const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,data);
           if(!serviceRequest){
             return next(CustomErrorHandler.notFound("Service Not found"))
           }

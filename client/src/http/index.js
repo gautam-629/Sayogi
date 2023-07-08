@@ -136,3 +136,24 @@ export function findServiceHistory(accessToken){
       console.log(error)
   }
 }
+
+export async function createReview(rating,userId,accessToken){
+  try {
+    const axiosInstance = axios.create({
+      baseURL: 'http://localhost:5000', // Replace with your API endpoint
+      headers: {
+        common: {
+          'Authorization': `Bearer ${accessToken}`, // Adding the token to the header
+        },
+      },
+    });
+    const requestData = {
+      userId:userId,
+      rating:rating
+    };
+    return await axiosInstance.post('/api/comments/createreview', requestData);
+  } catch (error) {
+    console.log(error);
+  }
+  
+}

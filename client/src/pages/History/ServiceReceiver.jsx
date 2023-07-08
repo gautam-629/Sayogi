@@ -18,7 +18,7 @@ const ServiceReceiver = () => {
     let count = 0;
     return (
         <>
-            <div className='relative'>
+            <div className='relative mt-10'>
                 <span className='text-textColor border-b-4 border-blue  text-2xl  font-bold'>
                 History as a Service Receiver</span>
                 <img className='inline w-6 mb-4 ml-2' src="/img/like.png" alt="" />

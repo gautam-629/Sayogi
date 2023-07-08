@@ -13,21 +13,21 @@ const userSchema = new mongoose.Schema({
     duration: { type: String, required: false },
     email: { type: String, required: false },
     cv: { type: String, required: false },
-    rating: { type: Number, default: 3 },
-    serviceSeeker:{type:Boolean, default:false}
-    // reviews: [
-    //     {
-    //         user: {
-    //             type: mongoose.Schema.ObjectId,
-    //             ref: 'User',
-    //             required: true
-    //         },
-    //         rating: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //     }
-    // ],
+    rating: { type: Number, default: 0 },
+    serviceSeeker:{type:Boolean, default:false},
+    reviews: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'User',
+                required: false
+            },
+            rating: {
+                type: Number,
+                required: false
+            },
+        }
+    ],
 }, { timestamps: true })
 
 export default mongoose.model('UserModel', userSchema, 'users');

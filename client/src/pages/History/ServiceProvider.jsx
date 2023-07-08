@@ -17,11 +17,10 @@ const ServiceProvider = () => {
         })()
     }, [])
     let count = 0;
-    console.log(serviceProvider)
     return (
         <>
-            <div className='relative'>
-                <span className='text-textColor border-b-4 border-blue  text-2xl  font-bold'>
+            <div className='relative mt-10'>
+                <span className='text-textColor border-b-4  border-blue  text-2xl  font-bold'>
                 History as a Service Provider</span>
                 <img className='inline w-6 mb-4 ml-2' src="/img/like.png" alt="" />
             </div>
@@ -40,14 +39,14 @@ const ServiceProvider = () => {
                     </thead>
                     <tbody >
                         {
-                            serviceProvider.map((data) => (
+                         serviceProvider  &&  Array.isArray(serviceProvider) && serviceProvider.map((data) => (
                                 <tr key={data._id}>
                                     <td className='py-2'>{++count}</td>
                                     <td className='py-2'>{data.receiver.name}</td>
                                     <td className='py-2'>{data.title}</td>
                                     <td className='py-2'>{new Date(data.acceptOn).toLocaleString()}</td>
                                     <td className='py-2'>{`${data.charge} per ${data.duration}`}</td>
-                                    <td className='pl-5'> <RatingInput/> </td>
+                                    <td className='pl-5'> <RatingInput userId={data.receiver._id}/> </td>
                                 </tr>
                             ))
                         }
