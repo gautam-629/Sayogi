@@ -9,42 +9,47 @@ import { STATUSES } from '../../config';
 import { setStatus } from '../../store/Notification';
 import { createNotification } from '../../store/Notification';
 import { updateServiceRequest } from '../../store/ServiceRequest';
-
+import io from 'socket.io-client';
 const ServiceSeekerProfile = () => {
 
     let dispatch = useDispatch();
     const location = useLocation();
-    const { serviceID,  receiver}=location.state || {} ;
+    const { serviceID, receiver, senderAvatar,senderName } = location.state || {};
     const { user } = useSelector((state) => state.auth.serviceSeeker);
-    const { user:currentUser } = useSelector((state) => state.auth);
-    const {accessToken}= useSelector((state)=>state.auth.token);
-    const {status}=useSelector((state)=>state.notification);
+    const { user: currentUser } = useSelector((state) => state.auth);
+    const { accessToken } = useSelector((state) => state.auth.token);
+    const { status } = useSelector((state) => state.notification);
     const { id } = useParams();
 
     const errorNotify = (errMessage) => toast.error(`${errMessage}!`);
-    const sucessNotify=(msg)=>toast.success(`${msg}`)
+    const sucessNotify = (msg) => toast.success(`${msg}`)
 
     useEffect(() => {
         dispatch(fetchsingleServiceSeeker(id));
 
-        if(status===STATUSES.ERROR){
+        if (status === STATUSES.ERROR) {
             errorNotify("Something went wong!");
-      }
-      if(status===STATUSES.SUCESS){
-         sucessNotify("Sucessfully Request to Hire 💚");
-      }
-      return ()=>{
-       dispatch(setStatus(STATUSES.IDLE))
-     }
+        }
+        if (status === STATUSES.SUCESS) {
+            sucessNotify("Sucessfully Request to Hire 💚");
+        }
+        return () => {
+            dispatch(setStatus(STATUSES.IDLE))
+        }
 
-    }, [id,dispatch,status])
-   function RequestNotification(e){
-        dispatch(createNotification(receiver,serviceID,accessToken));
+    }, [id, dispatch, status])
+    function RequestNotification(e) {
+        const socket = io('http://localhost:5000');
+        dispatch(createNotification(receiver, serviceID, accessToken));
 
-        dispatch(updateServiceRequest({serviceID,receiver},accessToken));
-       
+        dispatch(updateServiceRequest({ serviceID, receiver }, accessToken));
+
+        socket.emit('sendNoti',{
+            receiverId:receiver,
+            senderAvatar:senderAvatar,
+            senderName:senderName
+        })
     }
-
    
     return (
         <>
@@ -85,7 +90,7 @@ const ServiceSeekerProfile = () => {
                             </h2>
                         </div>
                         <div className='flex items-center justify-center'>
-                         {receiver===currentUser.id?null:<button onClick={RequestNotification} className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>}  
+                            {receiver === currentUser.id ? null : <button onClick={RequestNotification} className='bg-blue px-3 py-1 rounded-md mt-3 text-textColor font-bold'>Request to Hire</button>}
                         </div>
                     </div>
                 </div>

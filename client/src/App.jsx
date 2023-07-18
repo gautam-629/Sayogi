@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SlideBar from './components/shared/slidebar/SlideBar';
 import Navbar from './components/shared/Navbar/Navbar';
@@ -18,7 +18,10 @@ import RequestDetail from './pages/ServiceReceiver/RequestDetail';
 import ServiceReceiver from './pages/History/ServiceReceiver';
 import ServiceProvider from './pages/History/ServiceProvider';
 import Service from './pages/History/Service';
+import useSocketConnection from './hooks/useSocketConnection';
 const App = () => {
+  
+  useSocketConnection();
   const { loading } = useLoadingWithRefresh();
   return loading ? (
     <Loader message="Loading, please wait.." />

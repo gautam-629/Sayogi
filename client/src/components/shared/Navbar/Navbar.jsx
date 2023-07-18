@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom';
 import { setAuth } from '../../../store/AuthSlice';
 import { makeLogout } from '../../../http';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import { fetchNotification } from '../../../store/Notification';
+import { toast } from 'react-toastify';
+import { io } from 'socket.io-client';
 const Navbar = () => {
-  
+
+  const [soNoti, setSoNoti]=useState([]);
+
+  const sucessNotify = (msg) => toast.success(`${msg}`)
   let  navigate=useNavigate();
   let dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.auth);
@@ -19,6 +24,10 @@ const Navbar = () => {
       setNotificationCount(notification.length);
     }
   }, [notification])
+
+  useEffect(()=>{
+    dispatch(fetchNotification(accessToken));
+  },[dispatch])
 
   const { accessToken, refreshToken } = useSelector((state) => state.auth.token);
   const [open, setOpen] = useState(false);
@@ -53,19 +62,20 @@ const Navbar = () => {
     setNotificationCount(0);
   };
 
-  const socket = io('http://localhost:5000');
 
-  useEffect(() => {
-   
-    socket.emit('fromClient',{
-      msg:"Hello"
-    })
+  // useEffect(() => {
+  //   const socket = io('http://localhost:5000');
+  //     socket.on('recNoti', (data) => {
+  //       console.log("Socket", data)
+  //       setSoNoti("Inside socket",data)
+  //       sucessNotify(`Request to hire 💦`)
+  //     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
+  //    // Clean up on component unmount
+  //   return () => {
+  //     socket.off('message');
+  //   };
+  // });
 
   return (
     <>

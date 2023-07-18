@@ -33,7 +33,7 @@ const ServiceCard = ({service}) => {
       </div>
       <div>
      { open &&
-      <Kcomments setopen={setOpen} comments={service.comments} serviceId={service.id}/>}  
+      <Kcomments creatorName={service.name} creatorAvatar={service.avatar}  setopen={setOpen} comments={service.comments} serviceId={service.id}/>}  
       </div>
     </>
   )

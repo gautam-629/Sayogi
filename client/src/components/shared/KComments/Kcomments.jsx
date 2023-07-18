@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { createComments } from '../../../http';
 import { setComments } from '../../../store/ServiceRequest';
 import { useDispatch } from 'react-redux';
-const Kcomments = ({ setopen, comments,serviceId }) => {
+const Kcomments = ({ setopen, comments,serviceId, creatorAvatar, creatorName }) => {
    let dispatch=useDispatch();
    let navigate=useNavigate();
    const [content,setContent]=useState('');
@@ -23,7 +23,9 @@ const Kcomments = ({ setopen, comments,serviceId }) => {
       navigate(`/getserviceseekerprofile/${userId}`, {
         state: {
           receiver: userId,
-          serviceID:serviceId
+          serviceID:serviceId,
+          senderName:creatorName,
+          senderAvatar:creatorAvatar
         }
       });
     };

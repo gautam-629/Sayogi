@@ -43,11 +43,15 @@ app.get('*', (req, res) => {
 app.use(errorHandler);
 
 io.on('connection', (socket) => {
-  socket.on('fromClient', (data) => {
-    
-  });
   
-
+  socket.on('joinRoom',(roomId)=>{
+      socket.join(roomId);
+  })
+  
+  socket.on('sendNoti',(data)=>{
+    io.to(data.receiverId).emit('recNoti',data)
+  })
+   
   socket.on('disconnect', () => {
     // console.log('User disconnected');
   });
