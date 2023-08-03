@@ -53,19 +53,19 @@ const SlideBar = () => {
               <ul className='pl-5 pt-1 duration-200 '>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                  <Link to={'servicereceiver'}>
+                  <Link to={'/servicereceiver'}>
                     <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Receiver</span>
                   </Link>
                 </li>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                  <Link to={'serviceprovider'}>
+                  <Link to={'/serviceprovider'}>
                     <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service Provider</span>
                   </Link>
                 </li>
                 <li className='flex items-center duration-200 gap-2 pt-2'>
                   <img src={'/img/subHis.png'} height={10} width={20} alt='downarrow' />
-                <Link to={'servicehistory'}>
+                <Link to={'/servicehistory'}>
                 <span className='text-textColor font-bold text-lg cursor-pointer hover:border-b-4 border-blue'>Service History</span>
                 </Link>  
                 </li>

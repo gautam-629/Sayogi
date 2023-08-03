@@ -1,7 +1,9 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import HistoryCard from '../../components/shared/HistoryCard/HistoryCard';
 import { findServiceHistory } from '../../http';
 import { useSelector } from 'react-redux';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
+import Search from '../../components/shared/Search/Search';
 const Service = () => {
     const [serviceHistory, setServiceHistory] = useState([]);
     const { accessToken } = useSelector((state) => state.auth.token);
@@ -18,19 +20,33 @@ const Service = () => {
     }, [])
     return (
         <>
-            <div className='relative'>
-                <span className='text-textColor border-b-4 border-blue  text-2xl  font-bold'>
-                   Your Service Request History</span>
-                <img className='inline w-6 mb-4 ml-2' src="/img/like.png" alt="" />
+            <div className='grid grid-cols-12'>
+                <div className='col-span-3'>
+                    <SlideBar />
+                </div>
+                <div className='col-span-9 mt-14'>
+                    <div>
+                        <div className='relative'>
+                            <span className='text-textColor border-b-4 border-blue  text-2xl  font-bold'>
+                                Your Service Request History</span>
+                            <img className='inline w-6 mb-4 ml-2' src="/img/like.png" alt="" />
+                        </div>
+                        <div className='mt-4'>
+                            <Search />
+                        </div>
+                        <div className='flex flex-wrap mt-8 overflow-y-scroll gap-8 '>
+                            {
+                                serviceHistory.map((data) => (
+                                    <HistoryCard key={data._id} service={data} />
+                                ))
+                            }
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className='flex flex-wrap mt-8 overflow-y-scroll gap-8 '>
-                {
-                    serviceHistory.map((data)=>(
-                        <HistoryCard key={data._id} service={data} />
-                    ))
-                }
-               
-            </div>
+
+
         </>
 
     )

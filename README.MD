@@ -36,3 +36,17 @@
 
 9. History as a Service Provider and Rating page
 ![rating](https://res.cloudinary.com/dbvr3bxyv/image/upload/v1689226395/sayogiScreenShort/historyAsAprovider_k8lsop.png)
+
+
+
+
+
+
+<div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+      slide bar
+    </div>
+    <div className='col-span-9'>
+
+    </div>
+</div>

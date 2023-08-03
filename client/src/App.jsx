@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SlideBar from './components/shared/slidebar/SlideBar';
 import Navbar from './components/shared/Navbar/Navbar';
@@ -19,8 +19,13 @@ import ServiceReceiver from './pages/History/ServiceReceiver';
 import ServiceProvider from './pages/History/ServiceProvider';
 import Service from './pages/History/Service';
 import useSocketConnection from './hooks/useSocketConnection';
+import Dashboard from './Admin/Dashboard';
+import Users from './Admin/Users';
+import UpdateUser from './Admin/UpdateUser';
+import HiredUser from './Admin/HiredUser';
+import PaymentDetail from './Admin/paymentDetail';
 const App = () => {
-  
+
   useSocketConnection();
   const { loading } = useLoadingWithRefresh();
   return loading ? (
@@ -29,49 +34,83 @@ const App = () => {
     <>
       <BrowserRouter>
         <ToastContainer />
-        <div className='grid grid-cols-12 px-1'>
-          <div className='col-span-3'>
-            <SlideBar />
-          </div>
-          <div className='col-span-9 px-5'>
-            <Navbar />
-            <Routes>
-              <Route path='/authenticate' element={
-                <GuestRouter>
-                  <Authenticate />
-                </GuestRouter>
-              } />
-              <Route path='/activate' element={
-                <SemiProtected>
-                  <Activate />
-                </SemiProtected>
-              } />
-              <Route path='/servicerequest' element={
-                <ProtectedProtectedRoute>
-                  <ServiceRequest />
-                </ProtectedProtectedRoute>
-              }
-              />
-              <Route path='/createaccount' element={
-                <ProtectedProtectedRoute>
-                  <CreateAccount />
-                </ProtectedProtectedRoute>
-              } />
-              <Route path='/getallserviceseeker' element={<AllServiceSeeker />} />
-              <Route path='/getserviceseekerprofile/:id' element={<ServiceSeekerProfile />} />
-              <Route path='/' element={<Home />} />
-              <Route path='/requestdetail' element={
-                <ProtectedProtectedRoute>
-                  <RequestDetail />
-                </ProtectedProtectedRoute>
-              }
-              />
-              <Route path='/servicereceiver' element={<ServiceReceiver />} />
-              <Route path='/serviceprovider' element={<ServiceProvider />} />
-              <Route path='/servicehistory' element={<Service />} />
-            </Routes>
-          </div>
+        <div className=' absolute top-4 right-8 flex'>
+          <Navbar />
         </div>
+        <Routes>
+          <Route path='/authenticate' element={
+            <GuestRouter>
+              <Authenticate />
+            </GuestRouter>
+          } />
+          <Route path='/activate' element={
+            <SemiProtected>
+              <Activate />
+            </SemiProtected>
+          } />
+          <Route path='/servicerequest' element={
+            <ProtectedProtectedRoute>
+              <ServiceRequest />
+            </ProtectedProtectedRoute>
+          }
+          />
+          <Route path='/createaccount' element={
+            <ProtectedProtectedRoute>
+              <CreateAccount />
+            </ProtectedProtectedRoute>
+          } />
+          <Route path='/getallserviceseeker' element={<AllServiceSeeker />} />
+          <Route path='/getserviceseekerprofile/:id' element={<ServiceSeekerProfile />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/requestdetail' element={
+            <ProtectedProtectedRoute>
+              <RequestDetail />
+            </ProtectedProtectedRoute>
+          }
+          />
+          <Route path='/servicereceiver' element={
+            <ProtectedProtectedRoute>
+              <ServiceReceiver />
+            </ProtectedProtectedRoute>
+          }
+
+          />
+          <Route path='/serviceprovider' element={<ServiceProvider />} />
+          <Route path='/servicehistory' element={<Service />} />
+
+          {/* Admin Routes */}
+          <Route path='/dashboard' element={
+            <AdminProtectedProtectedRoute>
+              <Dashboard />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+          <Route path='/users' element={
+            <AdminProtectedProtectedRoute>
+              <Users />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+          <Route path='/updateuser' element={
+            <AdminProtectedProtectedRoute>
+              <UpdateUser />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+          <Route path='/hiredUser' element={
+            <AdminProtectedProtectedRoute>
+              <HiredUser />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+          <Route path='/paymentdetail' element={
+            <AdminProtectedProtectedRoute>
+              <PaymentDetail />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+        </Routes>
+
       </BrowserRouter>
     </>
   )
@@ -110,6 +149,21 @@ const ProtectedProtectedRoute = ({ children }) => {
     return <Navigate to="/authenticate" />
   }
   else if (isAuth && user?.activated) {
+    return children;
+  }
+  else if (isAuth && !user?.Activated) {
+    return <Navigate to="/activate" />
+  }
+
+}
+
+
+const AdminProtectedProtectedRoute = ({ children }) => {
+  const { isAuth, user } = useSelector((state) => state.auth);
+  if (!isAuth) {
+    return <Navigate to="/authenticate" />
+  }
+  else if (isAuth && user?.activated && user?.role === 'admin') {
     return children;
   }
   else if (isAuth && !user?.Activated) {

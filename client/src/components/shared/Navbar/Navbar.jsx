@@ -79,14 +79,10 @@ const Navbar = () => {
 
   return (
     <>
-      <div className='mt-4 flex relative justify-between'>
-
-        <div>
-          <label>
-            <img className='inline' width={20} height={20} src={'/img/inputSearch.png'} alt='search' />
-          </label>
-          <input className='bg-secBackColor w-56 py-1 pl-4 border-none outline-none rounded-lg text-textColor' type='text' placeholder='search...' />
-        </div>
+       <div className=''>
+        {/* <div className='hidden'>
+         hello
+        </div> */}
 
         <div className='flex gap-24 mr-10'>
 
@@ -141,6 +137,11 @@ const Navbar = () => {
               {open &&
                 <div ref={menuRef} className='bg-secBackColor p-4 w-32 shadow-lg absolute rounded-sm -left-8 top-20'>
                   <ul>
+                    {isAuth && user?.activated && user?.role==='admin' && (
+                     <Link to={'/dashboard'}>
+                       <li className='text-textColor font-bold text-lg p-2 cursor-pointer rounded'>DashBoard</li>
+                     </Link> 
+                    )}
                     <li onClick={() => { logout(); setOpen(false); }} className='text-textColor font-bold text-lg p-2 cursor-pointer rounded'>Logout</li>
                     <li onClick={() => setOpen(false)} className='text-textColor font-bold text-lg p-2 cursor-pointer rounded'>Profile</li>
                   </ul>
@@ -151,7 +152,6 @@ const Navbar = () => {
               <span className='text-textColor mr-20 cursor-pointer text-lg font-bold'>login</span>
             </Link>
           }
-
 
 
 

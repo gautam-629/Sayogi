@@ -5,6 +5,7 @@ import { STATUSES } from '../../config';
 import Loader from '../../components/shared/Loader/Loader';
 import { createServiceRequest } from '../../store/ServiceRequest';
 import { setStatus } from '../../store/ServiceRequest';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
 const ServiceRequest = () => {
   
   const [title,setTitle]=useState('');
@@ -42,6 +43,13 @@ useEffect(()=>{
 {status===STATUSES.LOADING && <Loader message={"Loading, please wait.."}/>}
   return (
     <>
+
+<div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+      <SlideBar/>
+    </div>
+    <div className='col-span-9 mt-11'>
+    <div>
      <div className='relative top-8 left-20'>
       <span className='text-textColor border-b-4 border-blue  text-2xl mt-8 font-bold'>
         Create a Service Request</span>
@@ -82,6 +90,10 @@ useEffect(()=>{
           </div>
       </form>
     </div>
+    </div>
+    </div>
+</div>
+
     </>
   )
 }

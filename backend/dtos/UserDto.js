@@ -14,9 +14,11 @@ class UserDto{
     cv;
     skills;
     serviceSeeker;
+    roll;
 constructor(user){
     this.id=user._id;
     this.name=user.name;
+    this.role=user.role;
     this.title=user.title;
     this.address=user.address;
     this.charge=user.charge;
