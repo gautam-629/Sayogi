@@ -8,6 +8,7 @@ import { makeActivateRequest } from '../../http';
 import { setAuth } from '../../store/AuthSlice';
 import { STATUSES } from '../../config';
 import Loader from '../../components/shared/Loader/Loader';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
 export const Avatar = ({ handleOnNext }) => {
   const dispatch = useDispatch();
   function captureImage(e) {
@@ -37,7 +38,13 @@ export const Avatar = ({ handleOnNext }) => {
   {status===STATUSES.LOADING && <Loader/>}
   return (
     <>
-      <div className={styles.cardWrapper}>
+
+<div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+      <SlideBar/>
+    </div>
+    <div className='col-span-9'>
+    <div className={styles.cardWrapper}>
         <Card title={`Okay,${name}`} icon="monkey-emoji">
           <p className={styles.subHeading}>How’s this photo?</p>
           <div className={styles.avatarWrapper}>
@@ -59,6 +66,10 @@ export const Avatar = ({ handleOnNext }) => {
           </div>
         </Card>
       </div>
+    </div>
+</div>
+
+     
     </>
   )
 }

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { findServiceReceiver } from '../../http'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import SlideBar from '../../components/shared/slidebar/SlideBar';
 const ServiceReceiver = () => {
+    let navigate=useNavigate();
     const [serviceReceiver, setServiceReceiver] = useState([]);
     const { accessToken } = useSelector((state) => state.auth.token);
     useEffect(() => {
@@ -10,6 +12,7 @@ const ServiceReceiver = () => {
             try {
                 const res = await findServiceReceiver(accessToken);
                 setServiceReceiver(res.data.serviceRequest);
+               
             } catch (error) {
                 console.log(error)
             }
@@ -17,6 +20,16 @@ const ServiceReceiver = () => {
 
     }, [])
     let count = 0;
+
+    function handleNavigate(serviceId,amount){
+         navigate('/payment',{
+            state:{
+                 serviceId:serviceId,
+                 serviceAmount:amount
+            }
+         })
+    }
+
     return (
         <>
             <div className='grid grid-cols-12'>
@@ -47,14 +60,19 @@ const ServiceReceiver = () => {
                                     <tbody >
                                         {
                                             serviceReceiver.map((data) => (
+                                                
                                                 <tr key={data._id}>
                                                     <td className='py-2'>{++count}</td>
                                                     <td className='py-2'>{data.sender.name}</td>
                                                     <td className='py-2'>{data.title}</td>
                                                     <td className='py-2'>{new Date(data.acceptOn).toLocaleString()}</td>
                                                     <td className='py-2'>{`${data.charge} per ${data.duration}`}</td>
-                                                    <td style={data.duration === 'pending' ? { color: 'red' } : { color: 'gray' }}> pending</td>
+                                                    <td> 
+                                                        <span style={data.paymentInfo.status === 'pending' ? { color: 'red' } : { color: 'green' }}>{data.paymentInfo.status}</span><br />
+                                                        <span onClick={()=>handleNavigate(data._id,data.charge)} className='text-blue font-bold cursor-pointer' >Click to Pay</span> 
+                                                    </td>
                                                 </tr>
+                                                
                                             ))
                                         }
 

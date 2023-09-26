@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SlideBar from './components/shared/slidebar/SlideBar';
 import Navbar from './components/shared/Navbar/Navbar';
 import Activate from './pages/auth/Activate/Activate';
 import Authenticate from './pages/auth/Authenticate/Authenticate';
@@ -24,7 +24,25 @@ import Users from './Admin/Users';
 import UpdateUser from './Admin/UpdateUser';
 import HiredUser from './Admin/HiredUser';
 import PaymentDetail from './Admin/paymentDetail';
+
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import Payment from './pages/payment/Payment';
+import PaymetnSucess from './pages/payment/PaymetnSucess';
+import UserDetail from './Admin/UserDetail';
+
 const App = () => {
+
+  const [stripeApiKey, setStripeApiKey] = useState('');
+
+  useEffect(() => {
+    async function getStripApiKey() {
+      const { data } = await axios.get('http://localhost:5000/api/v1/stripeapi');
+      setStripeApiKey(data.stripeApiKey)
+    }
+    getStripApiKey();
+
+  }, [])
 
   useSocketConnection();
   const { loading } = useLoadingWithRefresh();
@@ -75,8 +93,30 @@ const App = () => {
           }
 
           />
-          <Route path='/serviceprovider' element={<ServiceProvider />} />
-          <Route path='/servicehistory' element={<Service />} />
+          <Route path='/serviceprovider' element={
+            <ProtectedProtectedRoute>
+              <ServiceProvider />
+            </ProtectedProtectedRoute>
+          } />
+          <Route path='/servicehistory' element={
+            <ProtectedProtectedRoute>
+              <Service />
+            </ProtectedProtectedRoute>
+          } />
+          <Route path='/paymentsucess' element={<PaymetnSucess />} />
+
+          {/* payment */}
+          {
+            stripeApiKey &&
+            <Route path='/payment' element={
+              <ProtectedProtectedRoute>
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Payment />
+                </Elements>
+              </ProtectedProtectedRoute>
+            } />
+          }
+
 
           {/* Admin Routes */}
           <Route path='/dashboard' element={
@@ -106,6 +146,12 @@ const App = () => {
           <Route path='/paymentdetail' element={
             <AdminProtectedProtectedRoute>
               <PaymentDetail />
+            </AdminProtectedProtectedRoute>
+          }
+          />
+          <Route path='/adminuserdetail' element={
+            <AdminProtectedProtectedRoute>
+              <UserDetail />
             </AdminProtectedProtectedRoute>
           }
           />

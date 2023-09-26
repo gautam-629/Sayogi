@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SlideBar from './SlideBar'
-
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchallServiceSeeker } from '../store/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 const Users = () => {
+    let navigate=useNavigate();
+    let dispatch = useDispatch()
+    const { users } = useSelector((state) => state.auth.users);
+
+    useEffect(() => {
+        dispatch(fetchallServiceSeeker());
+    }, [])
+    console.log(users)
+    let count = 0;
+
+    function handleClick(data,userId){
+       navigate('/updateuser',{
+        state:{
+            user:data,
+            userId:userId
+        }
+       })
+    }
     return (
 
         <div className='grid grid-cols-12'>
@@ -20,24 +40,29 @@ const Users = () => {
                                 <th className='py-2'>Name</th>
                                 <th className='py-2'>Phone</th>
                                 <th className='py-2'>Profession</th>
-                                <th className='py-2'>role</th>
-                                <th className='py-2'>Service Seeker</th>
+                                <th className='py-2'>role</th>        
                                 <th className='py-2'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='py-2'>1</td>
-                                <td className='py-2'>Binod Gautam</td>
-                                <td className='py-2'>9815835831</td>
-                                <td className='py-2'>Electrician</td>
-                                <td className='py-2'>user</td>
-                                <td className='py-2'>Yes</td>
-                                <td className='pl-5'>
-                                    <img className='w-6 inline mx-2 cursor-pointer' src="/img/edit.png" alt="" />
-                                    <img className='w-6 inline mx-2 cursor-pointer' src="/img/delete.png" alt="" />
-                                </td>
-                            </tr>
+                            {
+                                users && Array.isArray(users) &&
+                                users.map((data) => (
+                                    <tr key={data.id}>
+                                        <td className='py-2'>{++count}</td>
+                                        <td className='py-2'>{data.name}</td>
+                                        <td className='py-2'>{data.phoneNumber}</td>
+                                        <td className='py-2'>{data.title}</td>
+                                        <td className='py-2'>{data.role}</td>
+                
+                                        <td className='pl-5'>
+                                            <img onClick={()=>handleClick(data,data.id)} className='w-6 inline mx-2 cursor-pointer' src="/img/edit.png" alt="" />
+                                            <img className='w-6 inline mx-2 cursor-pointer' src="/img/delete.png" alt="" />
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+
 
                         </tbody>
                     </table>

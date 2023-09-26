@@ -1,5 +1,5 @@
 import { PORT } from "./config/index.js";
-import { auth, serviceSeeker, serviceRequest, comments, notification } from "./routes/index.js";
+import { auth, serviceSeeker, serviceRequest, comments, notification,payment,admin } from "./routes/index.js";
 import errorHandler from "./middlewares/errorhander.js";
 import express from 'express'
 import connectDB from "./config/database/ConnectDB.js";
@@ -30,10 +30,12 @@ global.appRoot = path.resolve(__dirname);
 
 // config routes
 app.use('/api', auth);
+app.use('/api/v1',payment);
 app.use('/api/serviceSeeker', serviceSeeker);
 app.use('/api/servicerequest', serviceRequest);
 app.use('/api/comments', comments);
 app.use('/api/notification', notification);
+app.use('/api/admin',admin)
 
 app.get('*', (req, res) => {
   res.send('404 Not found');

@@ -10,7 +10,9 @@ export const {
     SMS_FROM_NUMBER,
     accessTokenSecret,
     refreshTokenSecret,
-    BASE_URL
+    BASE_URL,
+    STRIPE_SECRET_KEY,
+    STRIPE_API_KEY
 }=process.env;
 
 

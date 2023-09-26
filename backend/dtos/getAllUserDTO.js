@@ -3,6 +3,7 @@ class AllUser {
     this.id = user._id;
     this.title = user.title;
     this.address = user.address;
+    this.role=user.role;
     this.charge = user.charge;
     this.experience = user.experience;
     this.email = user.email;

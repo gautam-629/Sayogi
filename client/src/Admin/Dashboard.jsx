@@ -1,7 +1,15 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import SlideBar from './SlideBar'
-
+import { useSelector,useDispatch } from 'react-redux';
+import { fetchallServiceSeeker } from '../store/AuthSlice';
+import { Link } from 'react-router-dom';
 const Dashboard = () => {
+  let dispatch=useDispatch()
+  const { users } = useSelector((state) => state.auth.users);
+
+  useEffect(() => {
+    dispatch(fetchallServiceSeeker());
+}, [])
   return (
     <>  
   <div className='grid grid-cols-12'>
@@ -18,9 +26,11 @@ const Dashboard = () => {
       </div>
       <div className='w-28 h-24 rounded-md bg-blue text-center my-6 ml-5'>
           <h2 className=' text-teal-50 text-xl'>Users</h2>
-          <h2 className=' text-textColor text-lg font-bold'>20</h2>
+          <h2 className=' text-textColor text-lg font-bold'>{users && users.length}</h2>
           <hr className='' />
-           <h4 className='text-secTextColor cursor-pointer'>View Detail</h4>
+         <Link to={'/users'}>
+          <h4 className='text-secTextColor cursor-pointer'>View Detail</h4>
+         </Link>  
       </div>
     </div>
 </div>

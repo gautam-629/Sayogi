@@ -6,6 +6,7 @@ import { setName } from '../../store/ActivateSlice';
 import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
 const otpFullName = Yup.string()
 .min(3, 'Full name must be at least 3 characters')
 .max(20, 'Full name cannot exceed 20 characters')
@@ -29,7 +30,13 @@ const UserName = ({ handleOnNext }) => {
   }
   return (
     <>
-      <div className='flex justify-center items-center mt-36'>
+  
+<div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+      <SlideBar/>
+    </div>
+    <div className='col-span-9'>
+    <div className='flex justify-center items-center mt-36'>
         <Card title="What’s your full name?" icon="goggle-emoji">
           <InputText value={fullname}
             onChange={(e) => setFullname(e.target.value)} />
@@ -39,6 +46,10 @@ const UserName = ({ handleOnNext }) => {
           <Button text='Next' click={nextStep} />
         </Card>
       </div>
+    </div>
+</div>
+
+      
     </>
   )
 }

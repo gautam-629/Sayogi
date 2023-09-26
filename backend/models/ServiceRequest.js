@@ -25,6 +25,12 @@ const serviceRequestSchema = new mongoose.Schema({
             }
         },
     ],
+    paymentInfo: {
+        status: { type: String, default: 'pending' },
+        date: { type: Date },
+        payId:{type:String},
+        amount:{type:Number,default:0.0}
+      },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'

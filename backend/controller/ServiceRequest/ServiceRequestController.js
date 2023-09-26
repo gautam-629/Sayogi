@@ -70,7 +70,6 @@ async getAllServiceRequest(req, res, next) {
           acceptOn:Date.now()
         }
       }
-      
         try {
           const serviceRequest= await ServiceRequestModel.findByIdAndUpdate(serviceID,data);
           if(!serviceRequest){

@@ -1,7 +1,11 @@
 import React from 'react'
 import SlideBar from './SlideBar'
-
+import { useLocation } from 'react-router-dom'
 const PaymentDetail = () => {
+    let location=useLocation();
+
+    const {paymentInfo}=location.state || {};
+    console.log("paymentInfo",paymentInfo)
     return (
 
         <div className='grid grid-cols-12'>

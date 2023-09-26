@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { setStatus } from '../../store/AuthSlice';
 import {useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
 
 const otpSchema = Yup.string()
   .required('otp is required')
@@ -52,6 +53,27 @@ const Otp = ({ handleOnNext }) => {
 
   return (
     <>
+
+    
+<div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+      <SlideBar/>
+    </div>
+    <div className='col-span-9'>
+    <div className='flex justify-center items-center mt-40'>
+        <Card title='Enter the code we just texted you' icon='lock-emoji'>
+          <InputText value={otp} onChange={(e) => setOtp(e.target.value)} />
+          <div className='mt-2'>
+            <Button text='Next' click={verifyOtp} />
+          </div>
+          <p style={{ color: '#c4c5c5', width: '70%', margin: '0 auto', marginTop: '10px' }}>
+            By entering your number, you’re agreeing to our Terms of Service and Privacy Policy. Thanks!
+          </p>
+        </Card>
+      </div>
+    </div>
+</div>
+
       <div className='flex justify-center items-center mt-40'>
         <Card title='Enter the code we just texted you' icon='lock-emoji'>
           <InputText value={otp} onChange={(e) => setOtp(e.target.value)} />

@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { STATUSES } from '../../config';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import SlideBar from '../../components/shared/slidebar/SlideBar';
 
 const phoneSchema=Yup.string()
 .required('Phone number is required')
@@ -48,7 +49,12 @@ const Phone = ({ handleOnNext }) => {
   }, [status,dispatch])
   return (
     <>
-      <div className='flex w-full h-screen justify-center items-center'>
+    <div className='grid grid-cols-12'>
+    <div className='col-span-3'>
+       <SlideBar/>
+    </div>
+    <div className='col-span-9'>
+    <div className='flex w-full h-screen justify-center items-center'>
         <Card icon='phone' title='Enter your Phone number'>
           <InputText
             value={phoneNumber}
@@ -64,6 +70,9 @@ const Phone = ({ handleOnNext }) => {
           </p>
         </Card>
       </div>
+    </div>
+</div>
+      
     </>
   )
 }
