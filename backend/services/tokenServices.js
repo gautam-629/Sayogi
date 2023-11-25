@@ -1,23 +1,22 @@
-import jwt from 'jsonwebtoken';
-import RefreshModel from '../models/refreshModel';
-import { refreshTokenSecret, accessTokenSecret } from '../config';
-import { NextFunction } from 'express';
+import jwt from "jsonwebtoken";
+import RefreshModel from "../models/refreshModel";
+import { refreshTokenSecret, accessTokenSecret } from "../config";
+import { NextFunction } from "express";
 class TokenServices {
-
   static generateAccessToken(payload) {
-    return jwt.sign(payload, accessTokenSecret, { expiresIn: '1h' });
+    return jwt.sign(payload, accessTokenSecret, { expiresIn: "1h" });
   }
 
   static generateRefressToken(payload) {
-    return jwt.sign(payload, refreshTokenSecret, { expiresIn: '1h' })
+    return jwt.sign(payload, refreshTokenSecret, { expiresIn: "1h" });
   }
 
   static async storeRefreshToken(token, userId, next) {
     try {
       await RefreshModel.create({
         token,
-        userId
-      })
+        userId,
+      });
     } catch (error) {
       return next(error);
     }
@@ -40,16 +39,14 @@ class TokenServices {
 
   static async updateRefreshToken(userId, refreshToken) {
     return await RefreshModel.updateOne(
-        { userId: userId },
-        { token: refreshToken }
+      { userId: userId },
+      { token: refreshToken }
     );
-}
+  }
 
-static async removeToken(refreshToken) {
-  return await RefreshModel.deleteOne({ token: refreshToken });
-}
-
-
+  static async removeToken(refreshToken) {
+    return await RefreshModel.deleteOne({ token: refreshToken });
+  }
 }
 
 export default TokenServices;

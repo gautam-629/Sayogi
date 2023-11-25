@@ -1,11 +1,10 @@
-
-import fs from 'fs';
+import fs from "fs";
 import { handleMultipartData } from "../../config";
 import CustomErrorHandler from "../../services/customErrorHandler";
-import { serviceSeekerSchema } from '../../validators/validators';
-import userModels  from '../../models/userModels';
-import UserDto from '../../dtos/UserDto';
-import mapUserDTO from '../../dtos/getAllUserDTO';
+import { serviceSeekerSchema } from "../../validators/validators";
+import userModels from "../../models/userModels";
+import UserDto from "../../dtos/UserDto";
+import mapUserDTO from "../../dtos/getAllUserDTO";
 const Serviceseekers = {
   createAccount(req, res, next) {
     handleMultipartData(req, res, async (err) => {
@@ -20,19 +19,18 @@ const Serviceseekers = {
         // Delete the uploaded file
         fs.unlink(`${appRoot}/${filePath}`, (err) => {
           if (err) {
-            return next(
-              CustomErrorHandler.serverError(err.message)
-            );
+            return next(CustomErrorHandler.serverError(err.message));
           }
         });
         return next(error);
       }
 
-      const { title, address, charge, skills, experience, duration, email } = req.body;
-      
+      const { title, address, charge, skills, experience, duration, email } =
+        req.body;
+
       try {
         const userId = req.currentUser._id;
-        
+
         const updatedUser = await userModels.updateOne(
           { _id: userId },
           {
@@ -44,38 +42,60 @@ const Serviceseekers = {
               experience: experience,
               duration: duration,
               email: email,
-              serviceSeeker:true,
-              cv: `/${filePath}`
-            }
+              serviceSeeker: true,
+              cv: `/${filePath}`,
+            },
           }
         );
-      
+
         if (updatedUser.n === 0) {
           return next(CustomErrorHandler.notFound("ServiceSeeker not found"));
         }
-      
+
         const user = await userModels.findOne({ _id: userId });
         const userDto = new UserDto(user);
         res.json({
           user: userDto,
-          auth: true
+          auth: true,
         });
       } catch (error) {
         return next(error);
       }
-      
-    })
+    });
   },
+
+  // async getAllServiceSeeker(req, res, next) {
+  //   try {
+  //     const user = await userModels.find({ serviceSeeker: true });
+
+  //     const users = mapUserDTO(user);
+  //     res.status(201).json({
+  //       users: users,
+  //     });
+  //   } catch (error) {
+  //     return next(error);
+  //   }
+  // },
 
   async getAllServiceSeeker(req, res, next) {
     try {
-      const user = await userModels.find({serviceSeeker:true});
-      
-        const users= mapUserDTO(user)
-        res.status(201).json({
-          users: users
-        })
-      
+      // Extract query parameters from the request
+      const { title } = req.query;
+
+      // Build the query object based on provided parameters
+      const query = { serviceSeeker: true };
+      if (title) {
+        query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive search
+      }
+
+      // Use Mongoose find method with the constructed query
+      const user = await userModels.find(query);
+
+      const users = mapUserDTO(user);
+
+      res.status(201).json({
+        users: users,
+      });
     } catch (error) {
       return next(error);
     }
@@ -85,15 +105,14 @@ const Serviceseekers = {
     try {
       const user = await userModels.findById(req.params.id);
       const userDto = new UserDto(user);
-        res.json({
-          user: userDto,
-          auth: true
-        })
+      res.json({
+        user: userDto,
+        auth: true,
+      });
     } catch (error) {
       return next(error);
     }
-  }
-
-}
+  },
+};
 
 export default Serviceseekers;
