@@ -27,7 +27,7 @@ const authController = {
 
     //send otp
     try {
-      // await OtpServices.sendBySms(`+977${phoneNumber}`, otp, next);
+      await OtpServices.sendBySms(`+977${phoneNumber}`, otp, next);
       res.json({ hash: `${hash}.${expireTime}`, otp, phoneNumber });
     } catch (error) {
       return next(error);
