@@ -36,6 +36,8 @@ connectDB(`${process.env.MONGO_URL}`);
 
 global.appRoot = path.resolve(__dirname);
 
+
+
 // config routes
 app.use("/api", auth);
 app.use("/api/v1", payment);
@@ -45,9 +47,13 @@ app.use("/api/comments", comments);
 app.use("/api/notification", notification);
 app.use("/api/admin", admin);
 
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
 app.get("*", (req, res) => {
-  res.send("404 Not found");
+  res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
 });
+
+
 
 // config errorHandler
 app.use(errorHandler);

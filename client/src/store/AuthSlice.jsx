@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { api, STATUSES } from "../config/index";
+import { toast } from "react-toastify";
 import axios from "axios";
+const sucessNotify = (msg) => toast.success(`${msg}`);
 const initialState = {
   isAuth: false,
   token: {
@@ -74,8 +76,9 @@ export function sendOtpRequest(phoneNumber) {
     dispatch(setStatus(STATUSES.LOADING));
     try {
       const { data } = await api.post("/api/sendotp", phoneNumber);
+       sucessNotify(`Your Otp code is ${data.otp}`)
       dispatch(setOtp(data));
-      console.log(data);
+     
       dispatch(setStatus(STATUSES.SUCESS));
     } catch (error) {
       dispatch(setStatus(STATUSES.ERROR));
